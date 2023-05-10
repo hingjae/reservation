@@ -1,21 +1,33 @@
 package com.honey.reservation.domain;
 
+import com.honey.reservation.domain.baseentity.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
-
+@Getter
 @Entity
-public class Customer {
+public class Customer extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, length = 50) private String loginId;
-    @Column(length = 50) private String password;
-    @Column(length = 10) private String name;
+    @Setter @Column(unique = true, length = 50) private String loginId;
+    @Setter @Column(length = 50) private String password;
+    @Setter @Column(length = 10) private String name;
+    @Setter @Column(length = 20) private String phoneNumber;
 
-    private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime modifiedAt;
-    private String modifiedBy;
+    protected Customer() {}
+
+    private Customer(String loginId, String password, String name, String phoneNumber) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public static Customer of(String loginId, String password, String name, String phoneNumber) {
+        return new Customer(loginId, password, name, phoneNumber);
+    }
+
 }
