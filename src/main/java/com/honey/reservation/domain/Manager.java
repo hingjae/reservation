@@ -1,11 +1,12 @@
 package com.honey.reservation.domain;
 
+import com.honey.reservation.domain.baseentity.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
 
-import java.time.LocalDateTime;
-
+@Getter
 @Entity
-public class Manager {
+public class Manager extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,8 +15,15 @@ public class Manager {
     @Column(length = 50) private String password;
     @Column(length = 10) private String name;
 
-    private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime modifiedAt;
-    private String modifiedBy;
+    protected Manager() {}
+
+    private Manager(String loginId, String password, String name) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+    }
+
+    public static Manager of(String loginId, String password, String name) {
+        return new Manager(loginId, password, name);
+    }
 }
