@@ -23,7 +23,18 @@ public class Manager extends BaseTimeEntity {
         this.name = name;
     }
 
+    private Manager(Long id, String loginId, String password, String name) {
+        this.id = id;
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+    }
+
     public static Manager of(String loginId, String password, String name) {
         return new Manager(loginId, password, name);
+    }
+
+    public static Manager of(Long id, String loginId, String password, String name) {
+        return new Manager(id, loginId, password, name);
     }
 }
