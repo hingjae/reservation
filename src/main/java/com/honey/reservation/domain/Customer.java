@@ -26,8 +26,20 @@ public class Customer extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    private Customer(Long id, String loginId, String password, String name, String phoneNumber) {
+        this.id = id;
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
     public static Customer of(String loginId, String password, String name, String phoneNumber) {
         return new Customer(loginId, password, name, phoneNumber);
+    }
+
+    public static Customer of(Long id, String loginId, String password, String name, String phoneNumber) {
+        return new Customer(id, loginId, password, name, phoneNumber);
     }
 
 }
