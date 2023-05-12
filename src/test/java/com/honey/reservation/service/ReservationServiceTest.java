@@ -14,7 +14,6 @@ import com.honey.reservation.repository.ReservationRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -68,8 +67,35 @@ class ReservationServiceTest {
     @DisplayName("예약 수정")
     @Test
     void updateReservation() {
+        Reservation reservation = createReservation();
+        Customer customer = createCustomer();
+        ReservationDto reservationDto = createReservationDto();
+
+        given(reservationRepository.getReferenceById(reservationDto.id())).willReturn(reservation);
+        given(customerRepository.getReferenceById(reservationDto.customerDto().id())).willReturn(customer);
+
+        sut.updateReservation(reservation.getId(), reservationDto);
+
+        then(reservationRepository).should().getReferenceById(reservationDto.id());
+        then(customerRepository).should().getReferenceById(reservationDto.customerDto().id());
 
     }
+
+    @DisplayName("예약 취소")
+    @Test
+    void cancelReservation() {
+        Reservation reservation = createReservation();
+        Customer customer = createCustomer();
+        ReservationDto reservationDto = createReservationDto();
+        given(reservationRepository.getReferenceById(reservationDto.id())).willReturn(reservation);
+        given(customerRepository.getReferenceById(reservationDto.customerDto().id())).willReturn(customer);
+
+        sut.cancelReservation(reservation.getId(), reservationDto);
+
+        then(reservationRepository).should().getReferenceById(reservationDto.id());
+        then(customerRepository).should().getReferenceById(reservationDto.customerDto().id());
+    }
+
 
     private Customer createCustomer() {
         return Customer.of(1L, null, null, "customer", "phoneNumber");
