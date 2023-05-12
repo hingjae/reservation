@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.util.Objects;
 
+import static jakarta.persistence.FetchType.*;
+
 @Getter
 @Entity
 public class Reservation extends BaseTimeEntity {
@@ -16,9 +18,9 @@ public class Reservation extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false) @JoinColumn(name = "customer_id")
+    @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "customer_id")
     private Customer customer;
-    @ManyToOne(optional = false) @JoinColumn(name = "manager_id")
+    @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "manager_id")
     private Manager manager;
 
     @Setter @Embedded @Column(nullable = false) private ReservationDateTime reservationDateTime;
