@@ -32,19 +32,19 @@ public class ReservationService {
         return reservationRepository.findAll(pageable).map(ReservationDto::from);
     }
 
+    @Transactional(readOnly = true)
+    public ReservationDto getReservation(Long reservationId) {
+        return reservationRepository.findById(reservationId)
+                .map(ReservationDto::from)
+                .orElseThrow(() -> new IllegalArgumentException("예약이 없습니다."));
+    }
+
     public void saveReservation(ReservationDto dto) {
         Customer customer = customerRepository.getReferenceById(dto.customerDto().id());
         Manager manager = managerRepository.getReferenceById(dto.managerDto().id());
 
         Reservation reservation = dto.toEntity(customer, manager);
         reservationRepository.save(reservation);
-    }
-
-    @Transactional(readOnly = true)
-    public ReservationDto getReservation(Long reservationId) {
-        return reservationRepository.findById(reservationId)
-                .map(ReservationDto::from)
-                .orElseThrow(() -> new IllegalArgumentException("예약이 없습니다."));
     }
 
     // TODO: Request를 변환한 dto이므로 dto에 인증정보가 담겨있어야 함.
