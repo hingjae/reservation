@@ -5,6 +5,7 @@ import com.honey.reservation.domain.Manager;
 import com.honey.reservation.domain.baseentity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
@@ -20,9 +21,9 @@ public class Reservation extends BaseTimeEntity {
     @ManyToOne(optional = false) @JoinColumn(name = "manager_id")
     private Manager manager;
 
-    @Embedded @Column(nullable = false) private ReservationDateTime reservationDateTime;
-    @Column(length = 1000) private String description;
-    @Enumerated(EnumType.STRING) private ReservationStatus reservationStatus;
+    @Setter @Embedded @Column(nullable = false) private ReservationDateTime reservationDateTime;
+    @Setter @Column(length = 1000) private String description;
+    @Setter @Enumerated(EnumType.STRING) private ReservationStatus reservationStatus;
 
     protected Reservation() {}
 
