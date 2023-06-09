@@ -3,17 +3,20 @@ package com.honey.reservation.service;
 import com.honey.reservation.domain.Customer;
 import com.honey.reservation.dto.CustomerDto;
 import com.honey.reservation.repository.CustomerRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@DisplayName("서비스 로직 - 회원가입")
+@ActiveProfiles("test")
 @Transactional
 @SpringBootTest
 class LoginServiceTest {
@@ -28,15 +31,12 @@ class LoginServiceTest {
     @Test
     void givenCorrectCustomerDto_whenSignUp_thenSaveCustomer() {
         CustomerDto dto = CustomerDto.of(null, "loginId", "password", "name", "01012345678");
-        Customer customer = Customer.of(1L, "loginId", "password", "name", "01012345678");
 
         loginService.signUpCustomer(dto);
 
-        Optional<Customer> findMember = customerRepository.findById(1L);
+        Optional<Customer> findCustomer = customerRepository.findByLoginId("loginId");
 
-        assertThat(findMember).isNotEmpty();
-        assertThat(customer.getId()).isEqualTo(findMember.get().getId());
-        assertThat(customer.getLoginId()).isEqualTo(findMember.get().getLoginId());
+        assertThat(findCustomer).isNotEmpty();
     }
 
     @DisplayName("회원가입 실패")
@@ -47,4 +47,5 @@ class LoginServiceTest {
 
         assertThatThrownBy(() -> loginService.signUpCustomer(dto)).isInstanceOf(IllegalStateException.class);
     }
+
 }
