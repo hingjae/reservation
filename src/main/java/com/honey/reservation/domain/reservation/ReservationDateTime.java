@@ -1,7 +1,8 @@
 package com.honey.reservation.domain.reservation;
 
-import jakarta.persistence.Embeddable;
 import lombok.Getter;
+
+import javax.persistence.Embeddable;
 
 @Getter
 @Embeddable
