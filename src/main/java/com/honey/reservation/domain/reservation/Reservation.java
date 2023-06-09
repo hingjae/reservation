@@ -3,19 +3,20 @@ package com.honey.reservation.domain.reservation;
 import com.honey.reservation.domain.Customer;
 import com.honey.reservation.domain.Manager;
 import com.honey.reservation.domain.baseentity.BaseTimeEntity;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-import static jakarta.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Entity
 public class Reservation extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "customer_id")

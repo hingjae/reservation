@@ -1,8 +1,5 @@
 package com.honey.reservation.controller;
 
-import com.honey.reservation.dto.CustomerDto;
-import com.honey.reservation.dto.ReservationDto;
-import com.honey.reservation.dto.request.ReservationRequest;
 import com.honey.reservation.dto.response.ReservationDetailResponse;
 import com.honey.reservation.dto.response.ReservationResponse;
 import com.honey.reservation.service.ReservationService;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor

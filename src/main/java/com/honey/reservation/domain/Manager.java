@@ -1,14 +1,16 @@
 package com.honey.reservation.domain;
 
 import com.honey.reservation.domain.baseentity.BaseTimeEntity;
-import jakarta.persistence.*;
 import lombok.Getter;
+
+import javax.persistence.*;
 
 @Getter
 @Entity
 public class Manager extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, length = 50) private String loginId;

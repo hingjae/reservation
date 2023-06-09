@@ -7,13 +7,14 @@ import com.honey.reservation.dto.ReservationDto;
 import com.honey.reservation.repository.CustomerRepository;
 import com.honey.reservation.repository.ManagerRepository;
 import com.honey.reservation.repository.ReservationRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 
 import static com.honey.reservation.domain.reservation.ReservationStatus.CANCEL;
 
