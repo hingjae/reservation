@@ -102,7 +102,7 @@ class ReservationServiceTest {
     }
 
     private CustomerDto createCustomerDto() {
-        return CustomerDto.of(1L, "customer", "phoneNumber");
+        return CustomerDto.of(1L, "loginId", "password", "name", "phoneNumber");
     }
 
     private Manager createManager() {
