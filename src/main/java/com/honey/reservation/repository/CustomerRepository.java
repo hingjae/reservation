@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("select c.loginId from Customer c where c.loginId = :loginId")
     Optional<String> findLoginId(@Param("loginId") String loginId);
+
+    Optional<Customer> findByLoginId(String loginId);
 }

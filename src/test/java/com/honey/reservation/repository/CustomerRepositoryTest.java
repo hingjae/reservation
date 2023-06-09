@@ -11,11 +11,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.annotation.Commit;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @DisplayName("CustomerRepository 테스트")
 @Import(CustomerRepositoryTest.TestJpaConfig.class)
 @DataJpaTest
@@ -51,8 +53,16 @@ class CustomerRepositoryTest {
     void givenNotExistingLoginId_whenSelectLoginId_thenResultIsEmpty() {
         customerRepository.save(Customer.of(null, "loginId", "password", "name", "phoneNumber"));
         customerRepository.flush();
-        Optional<String> findLoginId = customerRepository.findLoginId("honey");
+        Optional<String> findLoginId = customerRepository.findLoginId("notExistLoginId");
         assertThat(findLoginId).isEmpty();
+    }
+
+    @DisplayName("로그인 아이디로 Customer 찾기")
+    @Test
+    void givenLoginId_whenFindByLoginId_thenReturnOptionalCustomer() {
+        customerRepository.save(Customer.of(null, "loginId", "password", "name", "phoneNumber"));
+        Optional<Customer> findCustomer = customerRepository.findByLoginId("loginId");
+        assertThat(findCustomer).isNotEmpty();
     }
 
     @EnableJpaAuditing
@@ -60,7 +70,7 @@ class CustomerRepositoryTest {
     static class TestJpaConfig {
         @Bean
         AuditorAware<String> auditorAware() {
-            return () -> Optional.of("uno");
+            return () -> Optional.of("sample");
         }
     }
 }
