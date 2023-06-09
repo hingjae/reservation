@@ -1,0 +1,1 @@
+insert into customer (login_id, password, name, phone_number) values ('honey', '{noop}pw', 'Daens', '157-398-4256');
