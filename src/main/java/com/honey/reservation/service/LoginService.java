@@ -22,7 +22,7 @@ public class LoginService {
 
     @Transactional(readOnly = true)
     public Optional<CustomerDto> loadUserByUsername(String username) {
-        return customerRepository.findByLoginId(username)
+        return customerRepository.findById(username)
                 .map(CustomerDto::from);
     }
 

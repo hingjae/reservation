@@ -3,13 +3,13 @@ package com.honey.reservation.dto;
 import com.honey.reservation.domain.Manager;
 
 public record ManagerDto(
-        Long id, String name
+        String loginId, String name
 ) {
-    public static ManagerDto of(Long id, String name) {
-        return new ManagerDto(id, name);
+    public static ManagerDto of(String loginId, String name) {
+        return new ManagerDto(loginId, name);
     }
 
     public static ManagerDto from(Manager entity) {
-        return new ManagerDto(entity.getId(), entity.getName());
+        return new ManagerDto(entity.getLoginId(), entity.getName());
     }
 }

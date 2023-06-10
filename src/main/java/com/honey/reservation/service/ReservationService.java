@@ -41,8 +41,8 @@ public class ReservationService {
     }
 
     public void saveReservation(ReservationDto dto) {
-        Customer customer = customerRepository.getReferenceById(dto.customerDto().id());
-        Manager manager = managerRepository.getReferenceById(dto.managerDto().id());
+        Customer customer = customerRepository.getReferenceById(dto.customerDto().loginId());
+        Manager manager = managerRepository.getReferenceById(dto.managerDto().loginId());
 
         Reservation reservation = dto.toEntity(customer, manager);
         reservationRepository.save(reservation);
@@ -52,7 +52,7 @@ public class ReservationService {
     public void updateReservation(Long reservationId, ReservationDto dto) {
         try {
             Reservation reservation = reservationRepository.getReferenceById(reservationId);
-            Customer customer = customerRepository.getReferenceById(dto.customerDto().id());
+            Customer customer = customerRepository.getReferenceById(dto.customerDto().loginId());
             updateReservationDateTime(dto, reservation, customer);
         } catch (EntityNotFoundException e) {
             log.warn("예약을 찾을 수 없습니다. {}", dto);
@@ -62,7 +62,7 @@ public class ReservationService {
     public void cancelReservation(Long reservationId, ReservationDto dto) {
         try {
             Reservation reservation = reservationRepository.getReferenceById(reservationId);
-            Customer customer = customerRepository.getReferenceById(dto.customerDto().id());
+            Customer customer = customerRepository.getReferenceById(dto.customerDto().loginId());
             if (reservation.getCustomer().equals(customer)) {
                 reservation.setReservationStatus(CANCEL);
             }
@@ -71,8 +71,8 @@ public class ReservationService {
         }
     }
 
-    public void deleteReservation(Long reservationId, Long managerId) {
-        reservationRepository.deleteByIdAndManager_id(reservationId, managerId);
+    public void deleteReservation(Long reservationId, String  managerLoginId) {
+        reservationRepository.deleteByIdAndManager_loginId(reservationId, managerLoginId);
     }
 
     private static void updateReservationDateTime(ReservationDto dto, Reservation reservation, Customer customer) {
