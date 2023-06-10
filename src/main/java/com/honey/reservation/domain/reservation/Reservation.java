@@ -5,13 +5,21 @@ import com.honey.reservation.domain.Manager;
 import com.honey.reservation.domain.baseentity.BaseTimeEntity;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
 
+@ToString(callSuper = true)
 @Getter
+@Table(indexes = {
+        @Index(columnList = "date"),
+        @Index(columnList = "time"),
+        @Index(columnList = "reservationStatus"),
+        @Index(columnList = "createdAt"),
+        @Index(columnList = "modifiedAt")
+})
 @Entity
 public class Reservation extends BaseTimeEntity {
 
@@ -19,9 +27,9 @@ public class Reservation extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "customer_id")
+    @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "customer_login_id")
     private Customer customer;
-    @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "manager_id")
+    @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "manager_login_id")
     private Manager manager;
 
     @Setter @Embedded @Column(nullable = false) private ReservationDateTime reservationDateTime;
@@ -67,16 +75,5 @@ public class Reservation extends BaseTimeEntity {
         return new Reservation(id, customer, manager, reservationDateTime, description, reservationStatus);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reservation that = (Reservation) o;
-        return getId() != null && getId().equals(that.getId());
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
 }
