@@ -39,14 +39,14 @@ class ReservationServiceTest {
     void saveReservation() {
         ReservationDto reservationDto = createReservationDto();
 
-        given(customerRepository.getReferenceById(reservationDto.customerDto().id())).willReturn(createCustomer());
-        given(managerRepository.getReferenceById(reservationDto.managerDto().id())).willReturn(createManager());
+        given(customerRepository.getReferenceById(reservationDto.customerDto().loginId())).willReturn(createCustomer());
+        given(managerRepository.getReferenceById(reservationDto.managerDto().loginId())).willReturn(createManager());
         given(reservationRepository.save(any(Reservation.class))).willReturn(createReservation());
 
         sut.saveReservation(reservationDto);
 
-        then(customerRepository).should().getReferenceById(reservationDto.customerDto().id());
-        then(managerRepository).should().getReferenceById(reservationDto.managerDto().id());
+        then(customerRepository).should().getReferenceById(reservationDto.customerDto().loginId());
+        then(managerRepository).should().getReferenceById(reservationDto.managerDto().loginId());
         then(reservationRepository).should().save(any(Reservation.class));
     }
 
@@ -72,12 +72,12 @@ class ReservationServiceTest {
         ReservationDto reservationDto = createReservationDto();
 
         given(reservationRepository.getReferenceById(reservationDto.id())).willReturn(reservation);
-        given(customerRepository.getReferenceById(reservationDto.customerDto().id())).willReturn(customer);
+        given(customerRepository.getReferenceById(reservationDto.customerDto().loginId())).willReturn(customer);
 
         sut.updateReservation(reservation.getId(), reservationDto);
 
         then(reservationRepository).should().getReferenceById(reservationDto.id());
-        then(customerRepository).should().getReferenceById(reservationDto.customerDto().id());
+        then(customerRepository).should().getReferenceById(reservationDto.customerDto().loginId());
 
     }
 
@@ -88,29 +88,29 @@ class ReservationServiceTest {
         Customer customer = createCustomer();
         ReservationDto reservationDto = createReservationDto();
         given(reservationRepository.getReferenceById(reservationDto.id())).willReturn(reservation);
-        given(customerRepository.getReferenceById(reservationDto.customerDto().id())).willReturn(customer);
+        given(customerRepository.getReferenceById(reservationDto.customerDto().loginId())).willReturn(customer);
 
         sut.cancelReservation(reservation.getId(), reservationDto);
 
         then(reservationRepository).should().getReferenceById(reservationDto.id());
-        then(customerRepository).should().getReferenceById(reservationDto.customerDto().id());
+        then(customerRepository).should().getReferenceById(reservationDto.customerDto().loginId());
     }
 
 
     private Customer createCustomer() {
-        return Customer.of(1L, null, null, "customer", "phoneNumber");
+        return Customer.of("loginId", null, "customer", "phoneNumber");
     }
 
     private CustomerDto createCustomerDto() {
-        return CustomerDto.of(1L, "loginId", "password", "name", "phoneNumber");
+        return CustomerDto.of("loginId", "password", "name", "phoneNumber");
     }
 
     private Manager createManager() {
-        return Manager.of(1L, null, null, "manager");
+        return Manager.of("loginId", null, "manager");
     }
 
     private ManagerDto createManagerDto() {
-        return ManagerDto.of(1L, "manager");
+        return ManagerDto.of("loginId", "manager");
     }
 
     private Reservation createReservation() {

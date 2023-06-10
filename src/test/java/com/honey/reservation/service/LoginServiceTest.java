@@ -30,11 +30,11 @@ class LoginServiceTest {
     @DisplayName("회원가입 성공")
     @Test
     void givenCorrectCustomerDto_whenSignUp_thenSaveCustomer() {
-        CustomerDto dto = CustomerDto.of(null, "loginId", "password", "name", "01012345678");
+        CustomerDto dto = CustomerDto.of("loginId", "password", "name", "01012345678");
 
         loginService.signUpCustomer(dto);
 
-        Optional<Customer> findCustomer = customerRepository.findByLoginId("loginId");
+        Optional<Customer> findCustomer = customerRepository.findById("loginId");
 
         assertThat(findCustomer).isNotEmpty();
     }
@@ -42,8 +42,8 @@ class LoginServiceTest {
     @DisplayName("회원가입 실패")
     @Test
     void givenExistingCustomer_whenSignUp_thenFailedSave() {
-        customerRepository.save(Customer.of(1L, "existingLoginId", "password", "name", "01012345678"));
-        CustomerDto dto = CustomerDto.of(null, "existingLoginId", "password", "name", "01012345678");
+        customerRepository.save(Customer.of("existingLoginId", "password", "name", "01012345678"));
+        CustomerDto dto = CustomerDto.of("existingLoginId", "password", "name", "01012345678");
 
         assertThatThrownBy(() -> loginService.signUpCustomer(dto)).isInstanceOf(IllegalStateException.class);
     }
