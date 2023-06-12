@@ -1,23 +1,28 @@
 package com.honey.reservation.service;
 
 import com.honey.reservation.dto.CustomerDto;
+import com.honey.reservation.dto.security.CustomerUserDetails;
 import com.honey.reservation.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class LoginService {
 
     private final CustomerRepository customerRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public void signUpCustomer(CustomerDto dto) {
-        validateDuplicateLoginId(dto.loginId());
-        customerRepository.save(dto.toEntity());
+    public void signUpCustomer(CustomerUserDetails dto) {
+        validateDuplicateLoginId(dto.username()); //username == loginId
+        customerRepository.save(dto.toEntity(passwordEncoder));
     }
 
     @Transactional(readOnly = true)
