@@ -1,1 +1,1 @@
-insert into customer (login_id, password, name, phone_number) values ('honey', '{noop}pw', 'Daens', '157-398-4256');
+insert into customer (login_id, password, name, phone_number) values ('honey', '$2a$10$F36MOa0H6ybdaiinlSB/QuC93xiXNB1KNjY3.Qh5En42KLLIX48Bq', '이재헌', '157-398-4256');

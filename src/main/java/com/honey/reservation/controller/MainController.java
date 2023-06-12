@@ -1,13 +1,18 @@
 package com.honey.reservation.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class MainController {
 
     @GetMapping("/")
     public String home() {
-        return "hello";
+        return "index";
+    }
+
+    @GetMapping("/go")
+    public String go() {
+        return "go";
     }
 }
