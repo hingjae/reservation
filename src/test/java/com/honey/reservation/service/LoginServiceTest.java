@@ -2,6 +2,7 @@ package com.honey.reservation.service;
 
 import com.honey.reservation.domain.Customer;
 import com.honey.reservation.dto.CustomerDto;
+import com.honey.reservation.dto.security.CustomerUserDetails;
 import com.honey.reservation.repository.CustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ class LoginServiceTest {
     void givenCorrectCustomerDto_whenSignUp_thenSaveCustomer() {
         CustomerDto dto = CustomerDto.of("loginId", "password", "name", "01012345678");
 
-        loginService.signUpCustomer(dto);
+        loginService.signUpCustomer(CustomerUserDetails.from(dto));
 
         Optional<Customer> findCustomer = customerRepository.findById("loginId");
 
@@ -45,7 +46,7 @@ class LoginServiceTest {
         customerRepository.save(Customer.of("existingLoginId", "password", "name", "01012345678"));
         CustomerDto dto = CustomerDto.of("existingLoginId", "password", "name", "01012345678");
 
-        assertThatThrownBy(() -> loginService.signUpCustomer(dto)).isInstanceOf(IllegalStateException.class);
+        assertThatThrownBy(() -> loginService.signUpCustomer(CustomerUserDetails.from(dto))).isInstanceOf(IllegalStateException.class);
     }
 
 }

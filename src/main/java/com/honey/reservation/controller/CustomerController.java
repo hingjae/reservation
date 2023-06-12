@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/customers")
@@ -29,7 +31,11 @@ public class CustomerController {
     }
 
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(HttpServletRequest request, ModelMap map) {
+        String error = request.getParameter("error");
+        if (error != null) {
+            map.addAttribute("errorMessage", "아이디와 비밀번호가 일치하지 않습니다.");
+        }
         return "customers/login";
     }
 

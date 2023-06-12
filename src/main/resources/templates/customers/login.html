@@ -17,6 +17,10 @@
     <form th:action="@{/loginProcess}" th:method="post">
       <h1 class="h3 mb-3 fw-normal">로그인</h1>
 
+      <div th:if="${errorMessage}">
+        <span class="text-danger" th:text="${errorMessage}"></span>
+      </div>
+
       <div class="form-floating mb-1">
         <input
                 id="loginId"
