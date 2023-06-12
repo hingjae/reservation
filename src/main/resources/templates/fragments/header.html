@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+
+                <li><a id="home" th:href="@{/}" class="nav-link px-2 text-secondary">Home</a></li>
+
+            </ul>
+
+            <div class="text-center">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+                    <li>
+                        <a role="button" id="login" class="btn btn-outline-light me-2" sec:authorize="!isAuthenticated()"
+                           th:href="@{/customers/login}">
+                            <span th:text="로그인"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a role="button" id="sign-up" class="btn btn-outline-light me-2" sec:authorize="!isAuthenticated()"
+                           th:href="@{/customers/sign-up}">
+                            <span th:text="회원가입"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <div id="username" class="text-white mt-2 me-2" sec:authorize="isAuthenticated()">
+                            <span sec:authentication="principal.name"></span>
+                        </div>
+                    </li>
+                    <li>
+                        <a role="button" id="logout" class="btn btn-outline-light" sec:authorize="isAuthenticated()" th:href="@{/customers/logout}">
+                            <span th:text="로그아웃"></span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>
