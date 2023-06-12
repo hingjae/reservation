@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .loginProcessingUrl("/loginProcess")
                         .defaultSuccessUrl("/")
-                        .failureUrl("/customers/login")
+                        .failureUrl("/customers/login?error=1")
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/customers/logout"))
