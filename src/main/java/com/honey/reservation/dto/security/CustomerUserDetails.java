@@ -1,10 +1,12 @@
 package com.honey.reservation.dto.security;
 
+import com.honey.reservation.domain.Customer;
 import com.honey.reservation.dto.CustomerDto;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.Set;
@@ -33,6 +35,10 @@ public record CustomerUserDetails(
 
     public static CustomerUserDetails from(CustomerDto dto) {
         return CustomerUserDetails.of(dto.loginId(), dto.password(), dto.name(), dto.phoneNumber());
+    }
+
+    public Customer toEntity(PasswordEncoder passwordEncoder) {
+        return Customer.of(username, passwordEncoder.encode(password), name, phoneNumber);
     }
 
     @Override public String getUsername() {return username;}

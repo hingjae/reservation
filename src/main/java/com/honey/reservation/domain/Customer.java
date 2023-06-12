@@ -22,7 +22,7 @@ public class Customer extends BaseTimeEntity {
     private String loginId;
 
     @Setter
-    @Column(length = 50)
+    @Column(length = 255)
     private String password;
     @Setter
     @Column(length = 10)
