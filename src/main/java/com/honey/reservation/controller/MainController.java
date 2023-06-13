@@ -8,7 +8,7 @@ public class MainController {
 
     @GetMapping("/")
     public String home() {
-        return "index";
+        return "redirect:/reservations/search-date";
     }
 
     @GetMapping("/go")
