@@ -32,7 +32,7 @@ public class Reservation extends BaseTimeEntity {
     @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "manager_login_id")
     private Manager manager;
 
-    @Setter @Embedded @Column(nullable = false) private ReservationDateTime reservationDateTime;
+    @Setter @Embedded @Column(nullable = false) private ReservationYearDateTime reservationYearDateTime;
     @Setter @Column(length = 1000) private String description;
     @Setter @Enumerated(EnumType.STRING) private ReservationStatus reservationStatus;
 
@@ -40,39 +40,39 @@ public class Reservation extends BaseTimeEntity {
 
     private Reservation(
             Customer customer, Manager manager,
-            ReservationDateTime reservationDateTime, String description, ReservationStatus reservationStatus
+            ReservationYearDateTime reservationYearDateTime, String description, ReservationStatus reservationStatus
     ) {
         this.customer = customer;
         this.manager = manager;
-        this.reservationDateTime = reservationDateTime;
+        this.reservationYearDateTime = reservationYearDateTime;
         this.description = description;
         this.reservationStatus = reservationStatus;
     }
 
     private Reservation(
             Long id, Customer customer, Manager manager,
-            ReservationDateTime reservationDateTime, String description, ReservationStatus reservationStatus
+            ReservationYearDateTime reservationYearDateTime, String description, ReservationStatus reservationStatus
     ) {
         this.id = id;
         this.customer = customer;
         this.manager = manager;
-        this.reservationDateTime = reservationDateTime;
+        this.reservationYearDateTime = reservationYearDateTime;
         this.description = description;
         this.reservationStatus = reservationStatus;
     }
 
     public static Reservation of(
             Customer customer, Manager manager,
-            ReservationDateTime reservationDateTime, String description, ReservationStatus reservationStatus
+            ReservationYearDateTime reservationYearDateTime, String description, ReservationStatus reservationStatus
     ) {
-        return new Reservation(customer, manager, reservationDateTime, description, reservationStatus);
+        return new Reservation(customer, manager, reservationYearDateTime, description, reservationStatus);
     }
 
     public static Reservation of(
             Long id, Customer customer, Manager manager,
-            ReservationDateTime reservationDateTime, String description, ReservationStatus reservationStatus
+            ReservationYearDateTime reservationYearDateTime, String description, ReservationStatus reservationStatus
     ) {
-        return new Reservation(id, customer, manager, reservationDateTime, description, reservationStatus);
+        return new Reservation(id, customer, manager, reservationYearDateTime, description, reservationStatus);
     }
 
 

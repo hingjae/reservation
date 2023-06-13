@@ -3,7 +3,7 @@ package com.honey.reservation.service;
 import com.honey.reservation.domain.Customer;
 import com.honey.reservation.domain.Manager;
 import com.honey.reservation.domain.reservation.Reservation;
-import com.honey.reservation.domain.reservation.ReservationDateTime;
+import com.honey.reservation.domain.reservation.ReservationYearDateTime;
 import com.honey.reservation.domain.reservation.ReservationStatus;
 import com.honey.reservation.dto.CustomerDto;
 import com.honey.reservation.dto.ManagerDto;
@@ -127,7 +127,7 @@ class ReservationServiceTest {
         );
     }
 
-    private ReservationDateTime createReservationDateTime() {
-        return new ReservationDateTime("230101", "0000");
+    private ReservationYearDateTime createReservationDateTime() {
+        return new ReservationYearDateTime("230101", "0000");
     }
 }

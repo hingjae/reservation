@@ -78,7 +78,7 @@ public class ReservationService {
     private static void updateReservationDateTime(ReservationDto dto, Reservation reservation, Customer customer) {
         if (reservation.getCustomer().equals(customer)) {
             if (dto.reservationDateTime() != null) {
-                reservation.setReservationDateTime(dto.reservationDateTime());
+                reservation.setReservationYearDateTime(dto.reservationDateTime());
             }
         }
     }

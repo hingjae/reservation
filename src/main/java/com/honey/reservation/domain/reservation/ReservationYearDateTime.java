@@ -6,16 +6,18 @@ import javax.persistence.Embeddable;
 
 @Getter
 @Embeddable
-public class ReservationDateTime {
+public class ReservationYearDateTime {
 
+    private String year;
     private String date;
     private String time;
 
-    public ReservationDateTime(String date, String time) {
+    public ReservationYearDateTime(String year, String date, String time) {
+        this.year = year;
         this.date = date;
         this.time = time;
     }
 
-    public ReservationDateTime() {
+    public ReservationYearDateTime() {
     }
 }

@@ -2,7 +2,7 @@ package com.honey.reservation.repository;
 
 import com.honey.reservation.domain.*;
 import com.honey.reservation.domain.reservation.Reservation;
-import com.honey.reservation.domain.reservation.ReservationDateTime;
+import com.honey.reservation.domain.reservation.ReservationYearDateTime;
 import com.honey.reservation.domain.reservation.ReservationStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ class ReservationRepositoryTest {
         Manager manager = Manager.of("loginId2", "pw", "manager");
         customerRepository.save(customer);
         managerRepository.save(manager);
-        ReservationDateTime reservationDateTime = new ReservationDateTime("01", "13:30");
+        ReservationYearDateTime reservationDateTime = new ReservationYearDateTime("01", "13:30");
         Reservation reservation = Reservation.of(customer, manager, reservationDateTime, "description", ReservationStatus.READY);
         reservationRepository.save(reservation);
     }

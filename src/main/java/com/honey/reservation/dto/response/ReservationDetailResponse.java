@@ -1,16 +1,15 @@
 package com.honey.reservation.dto.response;
 
-import com.honey.reservation.domain.reservation.Reservation;
-import com.honey.reservation.domain.reservation.ReservationDateTime;
+import com.honey.reservation.domain.reservation.ReservationYearDateTime;
 import com.honey.reservation.domain.reservation.ReservationStatus;
 import com.honey.reservation.dto.ReservationDto;
 
 public record ReservationDetailResponse(
-        Long reservationId, ReservationDateTime reservationDateTime, String description, ReservationStatus reservationStatus,
+        Long reservationId, ReservationYearDateTime reservationDateTime, String description, ReservationStatus reservationStatus,
         String customerLoginId, String customerName, String phoneNumber, String managerLoginId, String managerName
 ) {
     public static ReservationDetailResponse of(
-            Long reservationId, ReservationDateTime reservationDateTime, String description, ReservationStatus reservationStatus,
+            Long reservationId, ReservationYearDateTime reservationDateTime, String description, ReservationStatus reservationStatus,
             String customerLoginId, String customerName, String phoneNumber, String managerLoginId, String managerName
     ) {
         return new ReservationDetailResponse(
