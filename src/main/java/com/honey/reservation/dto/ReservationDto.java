@@ -3,27 +3,29 @@ package com.honey.reservation.dto;
 import com.honey.reservation.domain.Customer;
 import com.honey.reservation.domain.Manager;
 import com.honey.reservation.domain.reservation.Reservation;
-import com.honey.reservation.domain.reservation.ReservationYearDateTime;
 import com.honey.reservation.domain.reservation.ReservationStatus;
 
 public record ReservationDto(
         Long id,
         CustomerDto customerDto,
         ManagerDto managerDto,
-        ReservationYearDateTime reservationDateTime,
-        String description,
+        Integer year,
+        Integer month,
+        Integer day,
+        Double time,
+        String memo,
         ReservationStatus reservationStatus
 ) {
-    public static ReservationDto of(Long id, CustomerDto customerDto, ManagerDto managerDto, ReservationYearDateTime reservationDateTime, String description, ReservationStatus reservationStatus) {
-        return new ReservationDto(id, customerDto, managerDto, reservationDateTime, description, reservationStatus);
+    public static ReservationDto of(Long id, CustomerDto customerDto, ManagerDto managerDto, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
+        return new ReservationDto(id, customerDto, managerDto, year, month, day, time, memo, reservationStatus);
     }
 
     public Reservation toEntity(Customer customer, Manager manager) {
-        return Reservation.of(customer, manager, reservationDateTime, description, reservationStatus);
+        return Reservation.of(customer, manager, year, month, day, time, memo, reservationStatus);
     }
 
     public static ReservationDto from(Reservation entity) {
-        return new ReservationDto(entity.getId(), CustomerDto.from(entity.getCustomer()), ManagerDto.from(entity.getManager()), entity.getReservationYearDateTime(), entity.getDescription(), entity.getReservationStatus());
+        return ReservationDto.of(entity.getId(), CustomerDto.from(entity.getCustomer()), ManagerDto.from(entity.getManager()), entity.getYear(), entity.getMonth(), entity.getDay(), entity.getTime(), entity.getMemo(), entity.getReservationStatus());
     }
 
 }

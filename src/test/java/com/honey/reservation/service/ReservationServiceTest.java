@@ -3,7 +3,6 @@ package com.honey.reservation.service;
 import com.honey.reservation.domain.Customer;
 import com.honey.reservation.domain.Manager;
 import com.honey.reservation.domain.reservation.Reservation;
-import com.honey.reservation.domain.reservation.ReservationYearDateTime;
 import com.honey.reservation.domain.reservation.ReservationStatus;
 import com.honey.reservation.dto.CustomerDto;
 import com.honey.reservation.dto.ManagerDto;
@@ -20,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -116,18 +115,15 @@ class ReservationServiceTest {
     private Reservation createReservation() {
         return Reservation.of(
                 1L, createCustomer(), createManager(),
-                createReservationDateTime(), "description", ReservationStatus.READY
+                2023, 12, 4, 3.0, "memo", ReservationStatus.READY
         );
     }
 
     private ReservationDto createReservationDto() {
         return ReservationDto.of(
                 1L, createCustomerDto(), createManagerDto(),
-                createReservationDateTime(), "description", ReservationStatus.READY
+                2023, 12, 5, 10.0, "description", ReservationStatus.READY
         );
     }
 
-    private ReservationYearDateTime createReservationDateTime() {
-        return new ReservationYearDateTime("230101", "0000");
-    }
 }
