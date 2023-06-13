@@ -4,6 +4,7 @@ import com.honey.reservation.domain.Customer;
 import com.honey.reservation.domain.Manager;
 import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.dto.ReservationDto;
+import com.honey.reservation.dto.YearDateDto;
 import com.honey.reservation.repository.CustomerRepository;
 import com.honey.reservation.repository.ManagerRepository;
 import com.honey.reservation.repository.ReservationRepository;
@@ -15,6 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 import static com.honey.reservation.domain.reservation.ReservationStatus.CANCEL;
 
@@ -31,6 +36,18 @@ public class ReservationService {
     @Transactional(readOnly = true)
     public Page<ReservationDto> getReservations(Pageable pageable) {
         return reservationRepository.findAll(pageable).map(ReservationDto::from);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Double> availableDateTimeSearch(YearDateDto dto) {
+        List<Double> times = DoubleStream.iterate(9, n -> n + 0.5)
+                .limit(18)
+                .boxed()
+                .collect(Collectors.toList());
+        reservationRepository.findByYearAndMonthAndDay(dto.year(), dto.month(), dto.day()).stream()
+                .map(Reservation::getTime)
+                .forEach(time -> times.remove(time));
+        return times;
     }
 
     @Transactional(readOnly = true)
@@ -77,10 +94,12 @@ public class ReservationService {
 
     private static void updateReservationDateTime(ReservationDto dto, Reservation reservation, Customer customer) {
         if (reservation.getCustomer().equals(customer)) {
-            if (dto.reservationDateTime() != null) {
-                reservation.setReservationYearDateTime(dto.reservationDateTime());
+            if (dto.year() != null && dto.month() != null && dto.day() != null && dto.time() != null) {
+                reservation.setYear(dto.year());
+                reservation.setMonth(dto.month());
+                reservation.setDay(dto.day());
+                reservation.setTime(dto.time());
             }
         }
     }
-
 }
