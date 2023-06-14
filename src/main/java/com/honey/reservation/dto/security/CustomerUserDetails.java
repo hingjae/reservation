@@ -1,6 +1,6 @@
 package com.honey.reservation.dto.security;
 
-import com.honey.reservation.domain.Customer;
+import com.honey.reservation.domain.UserAccount;
 import com.honey.reservation.dto.CustomerDto;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,8 +37,8 @@ public record CustomerUserDetails(
         return CustomerUserDetails.of(dto.loginId(), dto.password(), dto.name(), dto.phoneNumber());
     }
 
-    public Customer toEntity(PasswordEncoder passwordEncoder) {
-        return Customer.of(username, passwordEncoder.encode(password), name, phoneNumber);
+    public UserAccount toEntity(PasswordEncoder passwordEncoder) {
+        return UserAccount.of(username, passwordEncoder.encode(password), name, phoneNumber);
     }
 
     @Override public String getUsername() {return username;}

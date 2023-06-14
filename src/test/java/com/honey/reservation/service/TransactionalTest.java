@@ -1,18 +1,15 @@
 package com.honey.reservation.service;
 
-import com.honey.reservation.domain.Customer;
-import com.honey.reservation.domain.Manager;
+import com.honey.reservation.domain.UserAccount;
 import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.domain.reservation.ReservationStatus;
 import com.honey.reservation.dto.YearDateDto;
 import com.honey.reservation.repository.CustomerRepository;
-import com.honey.reservation.repository.ManagerRepository;
 import com.honey.reservation.repository.ReservationRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -27,23 +24,19 @@ public class TransactionalTest {
     @Autowired ReservationService reservationService;
     @Autowired ReservationRepository reservationRepository;
     @Autowired CustomerRepository customerRepository;
-    @Autowired ManagerRepository managerRepository;
 
-    @Rollback(value = false)
     @DisplayName("예약 가능 시간 검색")
     @Test
     void givenYearMonthDay_whenSearch_thenReturnAvailableTime() {
-        Customer customer = createCustomer();
-        Manager manager = createManager();
+        UserAccount customer = createCustomer();
 
         customerRepository.saveAndFlush(customer);
-        managerRepository.saveAndFlush(manager);
 
 
-        Reservation reservation1 = Reservation.of(customer, manager, 2023, 6, 13, 10.0, "memo", ReservationStatus.READY);
-        Reservation reservation2 = Reservation.of(customer, manager, 2023, 6, 13, 10.5, "memo", ReservationStatus.READY);
-        Reservation reservation3 = Reservation.of(customer, manager, 2023, 6, 13, 11.0, "memo", ReservationStatus.READY);
-        Reservation reservation4 = Reservation.of(customer, manager, 2023, 6, 13, 11.5, "memo", ReservationStatus.READY);
+        Reservation reservation1 = Reservation.of(customer, 2023, 6, 13, 10.0, "memo", ReservationStatus.READY);
+        Reservation reservation2 = Reservation.of(customer, 2023, 6, 13, 10.5, "memo", ReservationStatus.READY);
+        Reservation reservation3 = Reservation.of(customer, 2023, 6, 13, 11.0, "memo", ReservationStatus.READY);
+        Reservation reservation4 = Reservation.of(customer, 2023, 6, 13, 11.5, "memo", ReservationStatus.READY);
 
 
         reservationRepository.save(reservation1);
@@ -61,11 +54,8 @@ public class TransactionalTest {
         System.out.println("collect = " + collect);
     }
 
-    private Manager createManager() {
-        return Manager.of("manager1", "pw1", "manager1");
-    }
 
-    private Customer createCustomer() {
-        return Customer.of("customer1", "pw1", "customer1", "1234");
+    private UserAccount createCustomer() {
+        return UserAccount.of("customer1", "pw1", "customer1", "1234");
     }
 }

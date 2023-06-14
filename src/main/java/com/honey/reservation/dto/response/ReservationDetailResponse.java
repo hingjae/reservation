@@ -13,15 +13,13 @@ public record ReservationDetailResponse(
         ReservationStatus reservationStatus,
         String customerLoginId,
         String customerName,
-        String phoneNumber,
-        String managerLoginId,
-        String managerName
+        String phoneNumber
 ) {
-    public static ReservationDetailResponse of(Long reservationId, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus, String customerLoginId, String customerName, String phoneNumber, String managerLoginId, String managerName) {
-        return new ReservationDetailResponse(reservationId, year, month, day, time, memo, reservationStatus, customerLoginId, customerName, phoneNumber, managerLoginId, managerName);
+    public static ReservationDetailResponse of(Long reservationId, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus, String customerLoginId, String customerName, String phoneNumber) {
+        return new ReservationDetailResponse(reservationId, year, month, day, time, memo, reservationStatus, customerLoginId, customerName, phoneNumber);
     }
 
     public static ReservationDetailResponse from(ReservationDto dto) {
-        return ReservationDetailResponse.of(dto.id(), dto.year(), dto.month(), dto.day(), dto.time(), dto.memo(), dto.reservationStatus(), dto.customerDto().loginId(), dto.customerDto().name(), dto.customerDto().phoneNumber(), dto.managerDto().loginId(), dto.managerDto().name());
+        return ReservationDetailResponse.of(dto.id(), dto.year(), dto.month(), dto.day(), dto.time(), dto.memo(), dto.reservationStatus(), dto.customerDto().loginId(), dto.customerDto().name(), dto.customerDto().phoneNumber());
     }
 }
