@@ -1,3 +1,27 @@
 insert into user_account (login_id, password, name, phone_number) values ('honey', '$2a$10$F36MOa0H6ybdaiinlSB/QuC93xiXNB1KNjY3.Qh5En42KLLIX48Bq', '이재헌', '157-398-4256');
 insert into user_account (login_id, password, name, phone_number) values ('user', '$2a$10$PVcPh4eLJ1fOqPAnJV3MAuMIf733hYOr8kyUb7LVDud3dXNSDMz0i', '고객', '157-398-4256');
 insert into user_account (login_id, password, name, phone_number) values ('manager', '$2a$10$lgl3IqIuB3S4kOz2WB9X7.E9hwQgoyQZ3.vElBObqPRNdzr6CZ8gu', '매니저', '157-398-4256');
+
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 9, 21, 12.5, 'Sunfire', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 6, 14, 12.5, 'Sunfire', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 6, 14, 10.5, 'Sunfire', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 6, 14, 11.5, 'Sunfire', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('manager', 2023, 8, 5, 13, 'Eclipse', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('manager', 2023, 8, 9, 15.5, 'Range Rover', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('honey', 2023, 6, 24, 9, 'Exige', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('manager', 2023, 8, 4, 9.5, 'Corvette', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('manager', 2023, 11, 10, 10.5, 'Sonoma', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 10, 3, 15, 'Endeavor', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('manager', 2023, 9, 26, 17.5, 'SJ', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 10, 18, 9, 'LUV', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 10, 19, 13, 'F350', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 9, 24, 9.5, 'X-Type', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('honey', 2023, 7, 21, 10, '4Runner', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('honey', 2023, 6, 8, 14, 'Savana 2500', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('honey', 2023, 7, 27, 15.5, 'Sierra 1500', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 8, 9, 17.5, 'Baja', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('honey', 2023, 8, 18, 15, 'Relay', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('manager', 2023, 12, 23, 14.5, 'S8', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('user', 2023, 12, 25, 9.5, 'Elantra', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('manager', 2023, 12, 17, 13, 'Corvette', 'READY');
+insert into reservation (user_account_id, year, month, day, time, memo, reservation_status) values ('manager', 2023, 8, 2, 11.5, 'LeSabre', 'READY');
