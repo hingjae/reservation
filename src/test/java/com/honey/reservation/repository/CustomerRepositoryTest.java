@@ -18,51 +18,52 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
-@DisplayName("CustomerRepository 테스트")
-@Import(CustomerRepositoryTest.TestJpaConfig.class)
+@DisplayName("UserAccountRepository 테스트")
+@Import(UserAccountRepositoryTest.TestJpaConfig.class)
 @DataJpaTest
-class CustomerRepositoryTest {
+class UserAccountRepositoryTest {
 
-    @Autowired CustomerRepository customerRepository;
+    @Autowired
+    UserAccountRepository userAccountRepository;
 
     @Commit
     @Test
     void crud() {
-        UserAccount customer = UserAccount.of("loginId", "pw", "honey", null);
-        customerRepository.save(customer);
-        UserAccount findCustomer = customerRepository.findById(customer.getLoginId()).get();
+        UserAccount userAccount = UserAccount.of("loginId", "pw", "honey", null);
+        userAccountRepository.save(userAccount);
+        UserAccount findUserAccount = userAccountRepository.findById(userAccount.getLoginId()).get();
 
-        assertThat(customer).isEqualTo(findCustomer);
-        findCustomer.setName("newName");
-        customerRepository.flush();
+        assertThat(userAccount).isEqualTo(findUserAccount);
+        findUserAccount.setName("newName");
+        userAccountRepository.flush();
 
-        customerRepository.delete(customer);
+        userAccountRepository.delete(userAccount);
     }
 
     @DisplayName("로그인 아이디 DB에 존재 O")
     @Test
     void givenExistingLoginId_whenSelectLoginId_thenResultIsNotEmpty() {
-        customerRepository.save(UserAccount.of("loginId", "password", "name", "phoneNumber"));
-        customerRepository.flush();
-        Optional<String> findLoginId = customerRepository.findLoginId("loginId");
+        userAccountRepository.save(UserAccount.of("loginId", "password", "name", "phoneNumber"));
+        userAccountRepository.flush();
+        Optional<String> findLoginId = userAccountRepository.findLoginId("loginId");
         assertThat(findLoginId).isNotEmpty();
     }
 
     @DisplayName("로그인 아이디 DB에 존재 X")
     @Test
     void givenNotExistingLoginId_whenSelectLoginId_thenResultIsEmpty() {
-        customerRepository.save(UserAccount.of("loginId", "password", "name", "phoneNumber"));
-        customerRepository.flush();
-        Optional<String> findLoginId = customerRepository.findLoginId("notExistLoginId");
+        userAccountRepository.save(UserAccount.of("loginId", "password", "name", "phoneNumber"));
+        userAccountRepository.flush();
+        Optional<String> findLoginId = userAccountRepository.findLoginId("notExistLoginId");
         assertThat(findLoginId).isEmpty();
     }
 
-    @DisplayName("로그인 아이디로 Customer 찾기")
+    @DisplayName("로그인 아이디로 UserAccount 찾기")
     @Test
-    void givenLoginId_whenFindByLoginId_thenReturnOptionalCustomer() {
-        customerRepository.save(UserAccount.of("loginId", "password", "name", "phoneNumber"));
-        Optional<UserAccount> findCustomer = customerRepository.findById("loginId");
-        assertThat(findCustomer).isNotEmpty();
+    void givenLoginId_whenFindByLoginId_thenReturnOptionalUserAccount() {
+        userAccountRepository.save(UserAccount.of("loginId", "password", "name", "phoneNumber"));
+        Optional<UserAccount> findUserAccount = userAccountRepository.findById("loginId");
+        assertThat(findUserAccount).isNotEmpty();
     }
 
     @EnableJpaAuditing

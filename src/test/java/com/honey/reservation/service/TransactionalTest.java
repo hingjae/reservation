@@ -4,7 +4,7 @@ import com.honey.reservation.domain.UserAccount;
 import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.domain.reservation.ReservationStatus;
 import com.honey.reservation.dto.YearDateDto;
-import com.honey.reservation.repository.CustomerRepository;
+import com.honey.reservation.repository.UserAccountRepository;
 import com.honey.reservation.repository.ReservationRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,20 +23,20 @@ public class TransactionalTest {
 
     @Autowired ReservationService reservationService;
     @Autowired ReservationRepository reservationRepository;
-    @Autowired CustomerRepository customerRepository;
+    @Autowired UserAccountRepository userAccountRepository;
 
     @DisplayName("예약 가능 시간 검색")
     @Test
     void givenYearMonthDay_whenSearch_thenReturnAvailableTime() {
-        UserAccount customer = createCustomer();
+        UserAccount Useraccount = createUserAccount();
 
-        customerRepository.saveAndFlush(customer);
+        userAccountRepository.saveAndFlush(Useraccount);
 
 
-        Reservation reservation1 = Reservation.of(customer, 2023, 6, 13, 10.0, "memo", ReservationStatus.READY);
-        Reservation reservation2 = Reservation.of(customer, 2023, 6, 13, 10.5, "memo", ReservationStatus.READY);
-        Reservation reservation3 = Reservation.of(customer, 2023, 6, 13, 11.0, "memo", ReservationStatus.READY);
-        Reservation reservation4 = Reservation.of(customer, 2023, 6, 13, 11.5, "memo", ReservationStatus.READY);
+        Reservation reservation1 = Reservation.of(Useraccount, 2023, 6, 13, 10.0, "memo", ReservationStatus.READY);
+        Reservation reservation2 = Reservation.of(Useraccount, 2023, 6, 13, 10.5, "memo", ReservationStatus.READY);
+        Reservation reservation3 = Reservation.of(Useraccount, 2023, 6, 13, 11.0, "memo", ReservationStatus.READY);
+        Reservation reservation4 = Reservation.of(Useraccount, 2023, 6, 13, 11.5, "memo", ReservationStatus.READY);
 
 
         reservationRepository.save(reservation1);
@@ -55,7 +55,7 @@ public class TransactionalTest {
     }
 
 
-    private UserAccount createCustomer() {
-        return UserAccount.of("customer1", "pw1", "customer1", "1234");
+    private UserAccount createUserAccount() {
+        return UserAccount.of("Useraccount1", "pw1", "Useraccount1", "1234");
     }
 }

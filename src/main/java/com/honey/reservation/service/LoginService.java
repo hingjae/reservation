@@ -1,8 +1,8 @@
 package com.honey.reservation.service;
 
-import com.honey.reservation.dto.CustomerDto;
-import com.honey.reservation.dto.security.CustomerUserDetails;
-import com.honey.reservation.repository.CustomerRepository;
+import com.honey.reservation.dto.UserAccountDto;
+import com.honey.reservation.dto.security.UserAccountUserDetails;
+import com.honey.reservation.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,22 +17,22 @@ import java.util.Optional;
 @Service
 public class LoginService {
 
-    private final CustomerRepository customerRepository;
+    private final UserAccountRepository userAccountRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void signUpCustomer(CustomerUserDetails dto) {
+    public void signUpUserAccount(UserAccountUserDetails dto) {
         validateDuplicateLoginId(dto.username()); //username == loginId
-        customerRepository.save(dto.toEntity(passwordEncoder));
+        userAccountRepository.save(dto.toEntity(passwordEncoder));
     }
 
     @Transactional(readOnly = true)
-    public Optional<CustomerDto> loadUserByUsername(String username) {
-        return customerRepository.findById(username)
-                .map(CustomerDto::from);
+    public Optional<UserAccountDto> loadUserByUsername(String username) {
+        return userAccountRepository.findById(username)
+                .map(UserAccountDto::from);
     }
 
     private void validateDuplicateLoginId(String loginId) {
-        if (customerRepository.findLoginId(loginId).isPresent()) {
+        if (userAccountRepository.findLoginId(loginId).isPresent()) {
             throw new IllegalStateException("이미 가입된 회원 입니다");
         }
     }

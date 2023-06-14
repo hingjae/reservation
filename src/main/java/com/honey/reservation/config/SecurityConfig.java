@@ -1,6 +1,6 @@
 package com.honey.reservation.config;
 
-import com.honey.reservation.dto.security.CustomerUserDetails;
+import com.honey.reservation.dto.security.UserAccountUserDetails;
 import com.honey.reservation.service.LoginService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -21,19 +21,19 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .mvcMatchers("/", "/reservations/search-date", "/customers/login", "/customers/sign-up").permitAll()
+                        .mvcMatchers("/", "/reservations/search-date", "/users/login", "/users/sign-up").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
-                        .loginPage("/customers/login")
+                        .loginPage("/users/login")
                         .usernameParameter("loginId")
                         .passwordParameter("password")
                         .loginProcessingUrl("/loginProcess")
                         .defaultSuccessUrl("/")
-                        .failureUrl("/customers/login?error=1")
+                        .failureUrl("/users/login?error=1")
                 )
                 .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/customers/logout"))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/users/logout"))
                         .logoutSuccessUrl("/")
                 )
                 .build();
@@ -43,7 +43,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(LoginService loginService) {
         return username -> loginService
                 .loadUserByUsername(username)
-                .map(CustomerUserDetails::from)
+                .map(UserAccountUserDetails::from)
                 .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다. - loginId : " + username));
     }
 

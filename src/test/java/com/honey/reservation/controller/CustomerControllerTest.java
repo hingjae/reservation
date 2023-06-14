@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("로그인 컨트롤러")
 @WebMvcTest
-class CustomerControllerTest {
+class UserAccountControllerTest {
 
     @Autowired MockMvc mvc;
 }

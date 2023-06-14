@@ -19,13 +19,13 @@
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
                     <li>
                         <a role="button" id="login" class="btn btn-outline-light me-2" sec:authorize="!isAuthenticated()"
-                           th:href="@{/customers/login}">
+                           th:href="@{/users/login}">
                             <span th:text="로그인"></span>
                         </a>
                     </li>
                     <li>
                         <a role="button" id="sign-up" class="btn btn-outline-light me-2" sec:authorize="!isAuthenticated()"
-                           th:href="@{/customers/sign-up}">
+                           th:href="@{/users/sign-up}">
                             <span th:text="회원가입"></span>
                         </a>
                     </li>
@@ -35,7 +35,7 @@
                         </div>
                     </li>
                     <li>
-                        <a role="button" id="logout" class="btn btn-outline-light" sec:authorize="isAuthenticated()" th:href="@{/customers/logout}">
+                        <a role="button" id="logout" class="btn btn-outline-light" sec:authorize="isAuthenticated()" th:href="@{/users/logout}">
                             <span th:text="로그아웃"></span>
                         </a>
                     </li>

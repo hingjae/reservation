@@ -4,7 +4,7 @@ import com.honey.reservation.domain.UserAccount;
 import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.dto.ReservationDto;
 import com.honey.reservation.dto.YearDateDto;
-import com.honey.reservation.repository.CustomerRepository;
+import com.honey.reservation.repository.UserAccountRepository;
 import com.honey.reservation.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import static com.honey.reservation.domain.reservation.ReservationStatus.CANCEL;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
-    private final CustomerRepository customerRepository;
+    private final UserAccountRepository userAccountRepository;
 
     @Transactional(readOnly = true)
     public Page<ReservationDto> getReservations(Pageable pageable) {
@@ -54,9 +54,9 @@ public class ReservationService {
     }
 
     public void saveReservation(ReservationDto dto) {
-        UserAccount customer = customerRepository.getReferenceById(dto.customerDto().loginId());
+        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().loginId());
 
-        Reservation reservation = dto.toEntity(customer);
+        Reservation reservation = dto.toEntity(userAccount);
         reservationRepository.save(reservation);
     }
 
@@ -64,8 +64,8 @@ public class ReservationService {
     public void updateReservation(Long reservationId, ReservationDto dto) {
         try {
             Reservation reservation = reservationRepository.getReferenceById(reservationId);
-            UserAccount customer = customerRepository.getReferenceById(dto.customerDto().loginId());
-            updateReservationDateTime(dto, reservation, customer);
+            UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().loginId());
+            updateReservationDateTime(dto, reservation, userAccount);
         } catch (EntityNotFoundException e) {
             log.warn("예약을 찾을 수 없습니다. {}", dto);
         }
@@ -74,8 +74,8 @@ public class ReservationService {
     public void cancelReservation(Long reservationId, ReservationDto dto) {
         try {
             Reservation reservation = reservationRepository.getReferenceById(reservationId);
-            UserAccount customer = customerRepository.getReferenceById(dto.customerDto().loginId());
-            if (reservation.getCustomer().equals(customer)) {
+            UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().loginId());
+            if (reservation.getUserAccount().equals(userAccount)) {
                 reservation.setReservationStatus(CANCEL);
             }
         } catch (EntityNotFoundException e) {
@@ -87,8 +87,8 @@ public class ReservationService {
         reservationRepository.deleteById(reservationId);
     }
 
-    private static void updateReservationDateTime(ReservationDto dto, Reservation reservation, UserAccount customer) {
-        if (reservation.getCustomer().equals(customer)) {
+    private static void updateReservationDateTime(ReservationDto dto, Reservation reservation, UserAccount userAccount) {
+        if (reservation.getUserAccount().equals(userAccount)) {
             if (dto.year() != null && dto.month() != null && dto.day() != null && dto.time() != null) {
                 reservation.setYear(dto.year());
                 reservation.setMonth(dto.month());

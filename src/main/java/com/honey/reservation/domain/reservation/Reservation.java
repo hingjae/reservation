@@ -28,8 +28,8 @@ public class Reservation extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(optional = false, fetch = LAZY)
-    @JoinColumn(name = "customer_login_id")
-    private UserAccount customer;
+    @JoinColumn(name = "user_account_id")
+    private UserAccount userAccount;
 
     @Setter @Column(nullable = false) private Integer year;
     @Setter @Column(nullable = false) private Integer month;
@@ -41,9 +41,9 @@ public class Reservation extends BaseTimeEntity {
 
     protected Reservation() {}
 
-    private Reservation(Long id, UserAccount customer, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
+    private Reservation(Long id, UserAccount userAccount, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
         this.id = id;
-        this.customer = customer;
+        this.userAccount = userAccount;
         this.year = year;
         this.month = month;
         this.day = day;
@@ -52,11 +52,11 @@ public class Reservation extends BaseTimeEntity {
         this.reservationStatus = reservationStatus;
     }
 
-    public static Reservation of(Long id, UserAccount customer, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
-        return new Reservation(id, customer, year, month, day, time, memo, reservationStatus);
+    public static Reservation of(Long id, UserAccount userAccount, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
+        return new Reservation(id, userAccount, year, month, day, time, memo, reservationStatus);
     }
 
-    public static Reservation of(UserAccount customer, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
-        return Reservation.of(null, customer, year, month, day, time, memo, reservationStatus);
+    public static Reservation of(UserAccount userAccount, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
+        return Reservation.of(null, userAccount, year, month, day, time, memo, reservationStatus);
     }
 }

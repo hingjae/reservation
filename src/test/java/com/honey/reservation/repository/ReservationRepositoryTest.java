@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 class ReservationRepositoryTest {
 
     @Autowired ReservationRepository reservationRepository;
-    @Autowired CustomerRepository customerRepository;
+    @Autowired UserAccountRepository userAccountRepository;
 
     @Test
     void save() {
-        UserAccount customer = UserAccount.of("loginId1", "pw", "customer", null);
-        customerRepository.save(customer);
-        Reservation reservation = Reservation.of(customer, 2023, 6, 13, 15.0, "description", ReservationStatus.READY);
+        UserAccount userAccount = UserAccount.of("loginId1", "pw", "userAccount", null);
+        userAccountRepository.save(userAccount);
+        Reservation reservation = Reservation.of(userAccount, 2023, 6, 13, 15.0, "description", ReservationStatus.READY);
         reservationRepository.save(reservation);
     }
 }
