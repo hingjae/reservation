@@ -1,7 +1,7 @@
 package com.honey.reservation.dto.security;
 
-import com.honey.reservation.domain.Customer;
-import com.honey.reservation.dto.CustomerDto;
+import com.honey.reservation.domain.UserAccount;
+import com.honey.reservation.dto.UserAccountDto;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record CustomerUserDetails(
+public record UserAccountUserDetails(
         String username,
         String password,
         Collection<? extends GrantedAuthority> authorities,
@@ -20,9 +20,9 @@ public record CustomerUserDetails(
         String phoneNumber
 ) implements UserDetails {
 
-    public static CustomerUserDetails of(String username, String password, String name, String phoneNumber) {
+    public static UserAccountUserDetails of(String username, String password, String name, String phoneNumber) {
         Set<RoleType> roleTypes = Set.of(RoleType.USER);
-        return new CustomerUserDetails(
+        return new UserAccountUserDetails(
                 username,
                 password,
                 roleTypes.stream()
@@ -33,12 +33,12 @@ public record CustomerUserDetails(
                 phoneNumber);
     }
 
-    public static CustomerUserDetails from(CustomerDto dto) {
-        return CustomerUserDetails.of(dto.loginId(), dto.password(), dto.name(), dto.phoneNumber());
+    public static UserAccountUserDetails from(UserAccountDto dto) {
+        return UserAccountUserDetails.of(dto.loginId(), dto.password(), dto.name(), dto.phoneNumber());
     }
 
-    public Customer toEntity(PasswordEncoder passwordEncoder) {
-        return Customer.of(username, passwordEncoder.encode(password), name, phoneNumber);
+    public UserAccount toEntity(PasswordEncoder passwordEncoder) {
+        return UserAccount.of(username, passwordEncoder.encode(password), name, phoneNumber);
     }
 
     @Override public String getUsername() {return username;}

@@ -15,7 +15,7 @@ import java.util.Objects;
         @Index(columnList = "phoneNumber")
 })
 @Entity
-public class Customer extends BaseTimeEntity {
+public class UserAccount extends BaseTimeEntity {
 
     @Id
     @Column(length = 50)
@@ -25,31 +25,31 @@ public class Customer extends BaseTimeEntity {
     @Column(length = 255)
     private String password;
     @Setter
-    @Column(length = 10)
+    @Column(length = 20)
     private String name;
     @Setter
     @Column(length = 20)
     private String phoneNumber;
 
-    protected Customer() {
+    protected UserAccount() {
     }
 
-    private Customer(String loginId, String password, String name, String phoneNumber) {
+    private UserAccount(String loginId, String password, String name, String phoneNumber) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
 
-    public static Customer of(String loginId, String password, String name, String phoneNumber) {
-        return new Customer(loginId, password, name, phoneNumber);
+    public static UserAccount of(String loginId, String password, String name, String phoneNumber) {
+        return new UserAccount(loginId, password, name, phoneNumber);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Customer customer)) return false;
-        return getLoginId() != null && getLoginId().equals(customer.getLoginId());
+        if (!(o instanceof UserAccount userAccount)) return false;
+        return getLoginId() != null && getLoginId().equals(userAccount.getLoginId());
     }
 
     @Override

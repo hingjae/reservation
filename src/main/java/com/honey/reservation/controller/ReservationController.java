@@ -85,16 +85,4 @@ public class ReservationController {
         return "reservationForm";
     }
 
-    /*
-    @PostMapping("/form")
-    public String saveReservation(
-            ReservationRequest reservationRequest,
-            Long customerId, Long managerId
-    ) {
-        //customer manager 데이터베이스에 접근할 수 있는 서비스로직을 만든 뒤
-        //dto를 불러와서 saveReservation 인자에 넣기
-        reservationService.saveReservation(reservationRequest.toDto();
-        return "redirect:/";
-    }
-    */
 }

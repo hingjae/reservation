@@ -1,6 +1,6 @@
 package com.honey.reservation.dto.request;
 
-import com.honey.reservation.dto.CustomerDto;
+import com.honey.reservation.dto.UserAccountDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -22,7 +22,7 @@ public class SignUpRequest {
         return new SignUpRequest();
     }
 
-    public CustomerDto toDto() {
-        return CustomerDto.of(loginId, password, name, phoneNumber);
+    public UserAccountDto toDto() {
+        return UserAccountDto.of(loginId, password, name, phoneNumber);
     }
 }

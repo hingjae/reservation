@@ -1,14 +1,11 @@
 package com.honey.reservation.service;
 
-import com.honey.reservation.domain.Customer;
-import com.honey.reservation.domain.Manager;
+import com.honey.reservation.domain.UserAccount;
 import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.domain.reservation.ReservationStatus;
-import com.honey.reservation.dto.CustomerDto;
-import com.honey.reservation.dto.ManagerDto;
+import com.honey.reservation.dto.UserAccountDto;
 import com.honey.reservation.dto.ReservationDto;
-import com.honey.reservation.repository.CustomerRepository;
-import com.honey.reservation.repository.ManagerRepository;
+import com.honey.reservation.repository.UserAccountRepository;
 import com.honey.reservation.repository.ReservationRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,22 +27,20 @@ class ReservationServiceTest {
 
     @InjectMocks ReservationService sut;
     @Mock ReservationRepository reservationRepository;
-    @Mock CustomerRepository customerRepository;
-    @Mock ManagerRepository managerRepository;
+    @Mock
+    UserAccountRepository userAccountRepository;
 
     @DisplayName("예약 저장")
     @Test
     void saveReservation() {
         ReservationDto reservationDto = createReservationDto();
 
-        given(customerRepository.getReferenceById(reservationDto.customerDto().loginId())).willReturn(createCustomer());
-        given(managerRepository.getReferenceById(reservationDto.managerDto().loginId())).willReturn(createManager());
+        given(userAccountRepository.getReferenceById(reservationDto.userAccountDto().loginId())).willReturn(createUserAccount());
         given(reservationRepository.save(any(Reservation.class))).willReturn(createReservation());
 
         sut.saveReservation(reservationDto);
 
-        then(customerRepository).should().getReferenceById(reservationDto.customerDto().loginId());
-        then(managerRepository).should().getReferenceById(reservationDto.managerDto().loginId());
+        then(userAccountRepository).should().getReferenceById(reservationDto.userAccountDto().loginId());
         then(reservationRepository).should().save(any(Reservation.class));
     }
 
@@ -67,16 +62,16 @@ class ReservationServiceTest {
     @Test
     void updateReservation() {
         Reservation reservation = createReservation();
-        Customer customer = createCustomer();
+        UserAccount userAccount = createUserAccount();
         ReservationDto reservationDto = createReservationDto();
 
         given(reservationRepository.getReferenceById(reservationDto.id())).willReturn(reservation);
-        given(customerRepository.getReferenceById(reservationDto.customerDto().loginId())).willReturn(customer);
+        given(userAccountRepository.getReferenceById(reservationDto.userAccountDto().loginId())).willReturn(userAccount);
 
         sut.updateReservation(reservation.getId(), reservationDto);
 
         then(reservationRepository).should().getReferenceById(reservationDto.id());
-        then(customerRepository).should().getReferenceById(reservationDto.customerDto().loginId());
+        then(userAccountRepository).should().getReferenceById(reservationDto.userAccountDto().loginId());
 
     }
 
@@ -84,45 +79,36 @@ class ReservationServiceTest {
     @Test
     void cancelReservation() {
         Reservation reservation = createReservation();
-        Customer customer = createCustomer();
+        UserAccount userAccount = createUserAccount();
         ReservationDto reservationDto = createReservationDto();
         given(reservationRepository.getReferenceById(reservationDto.id())).willReturn(reservation);
-        given(customerRepository.getReferenceById(reservationDto.customerDto().loginId())).willReturn(customer);
+        given(userAccountRepository.getReferenceById(reservationDto.userAccountDto().loginId())).willReturn(userAccount);
 
         sut.cancelReservation(reservation.getId(), reservationDto);
 
         then(reservationRepository).should().getReferenceById(reservationDto.id());
-        then(customerRepository).should().getReferenceById(reservationDto.customerDto().loginId());
+        then(userAccountRepository).should().getReferenceById(reservationDto.userAccountDto().loginId());
     }
 
 
-    private Customer createCustomer() {
-        return Customer.of("loginId", null, "customer", "phoneNumber");
+    private UserAccount createUserAccount() {
+        return UserAccount.of("loginId", null, "user", "phoneNumber");
     }
 
-    private CustomerDto createCustomerDto() {
-        return CustomerDto.of("loginId", "password", "name", "phoneNumber");
+    private UserAccountDto createUserAccountDto() {
+        return UserAccountDto.of("loginId", "password", "name", "phoneNumber");
     }
 
-    private Manager createManager() {
-        return Manager.of("loginId", null, "manager");
-    }
-
-    private ManagerDto createManagerDto() {
-        return ManagerDto.of("loginId", "manager");
-    }
 
     private Reservation createReservation() {
         return Reservation.of(
-                1L, createCustomer(), createManager(),
-                2023, 12, 4, 3.0, "memo", ReservationStatus.READY
+                1L, createUserAccount(), 2023, 12, 4, 3.0, "memo", ReservationStatus.READY
         );
     }
 
     private ReservationDto createReservationDto() {
         return ReservationDto.of(
-                1L, createCustomerDto(), createManagerDto(),
-                2023, 12, 5, 10.0, "description", ReservationStatus.READY
+                1L, createUserAccountDto(), 2023, 12, 5, 10.0, "description", ReservationStatus.READY
         );
     }
 

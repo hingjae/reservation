@@ -14,7 +14,7 @@
 
 <main class="form-sign-in w-50 m-auto">
     <div class="container py-5">
-        <form th:method="post" th:object="${customer}">
+        <form th:method="post" th:object="${userAccount}">
             <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
             <div th:if="${errorMessage}">

@@ -1,7 +1,6 @@
 package com.honey.reservation.domain.reservation;
 
-import com.honey.reservation.domain.Customer;
-import com.honey.reservation.domain.Manager;
+import com.honey.reservation.domain.UserAccount;
 import com.honey.reservation.domain.baseentity.BaseTimeEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,10 +27,9 @@ public class Reservation extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "customer_login_id")
-    private Customer customer;
-    @ManyToOne(optional = false, fetch = LAZY) @JoinColumn(name = "manager_login_id")
-    private Manager manager;
+    @ManyToOne(optional = false, fetch = LAZY)
+    @JoinColumn(name = "user_account_id")
+    private UserAccount userAccount;
 
     @Setter @Column(nullable = false) private Integer year;
     @Setter @Column(nullable = false) private Integer month;
@@ -43,10 +41,9 @@ public class Reservation extends BaseTimeEntity {
 
     protected Reservation() {}
 
-    private Reservation(Long id, Customer customer, Manager manager, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
+    private Reservation(Long id, UserAccount userAccount, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
         this.id = id;
-        this.customer = customer;
-        this.manager = manager;
+        this.userAccount = userAccount;
         this.year = year;
         this.month = month;
         this.day = day;
@@ -55,11 +52,11 @@ public class Reservation extends BaseTimeEntity {
         this.reservationStatus = reservationStatus;
     }
 
-    public static Reservation of(Long id, Customer customer, Manager manager, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
-        return new Reservation(id, customer, manager, year, month, day, time, memo, reservationStatus);
+    public static Reservation of(Long id, UserAccount userAccount, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
+        return new Reservation(id, userAccount, year, month, day, time, memo, reservationStatus);
     }
 
-    public static Reservation of(Customer customer, Manager manager, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
-        return Reservation.of(null, customer, manager, year, month, day, time, memo, reservationStatus);
+    public static Reservation of(UserAccount userAccount, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
+        return Reservation.of(null, userAccount, year, month, day, time, memo, reservationStatus);
     }
 }

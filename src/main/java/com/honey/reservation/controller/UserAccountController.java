@@ -1,7 +1,7 @@
 package com.honey.reservation.controller;
 
 import com.honey.reservation.dto.request.SignUpRequest;
-import com.honey.reservation.dto.security.CustomerUserDetails;
+import com.honey.reservation.dto.security.UserAccountUserDetails;
 import com.honey.reservation.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,16 +18,16 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/customers")
+@RequestMapping("/users")
 @Controller
-public class CustomerController {
+public class UserAccountController {
 
     private final LoginService loginService;
 
     @GetMapping("/sign-up")
     public String signUpForm(ModelMap map) {
-        map.addAttribute("customer", SignUpRequest.of());
-        return "customers/sign-up";
+        map.addAttribute("userAccount", SignUpRequest.of());
+        return "users/sign-up";
     }
 
     @GetMapping("/login")
@@ -36,16 +36,16 @@ public class CustomerController {
         if (error != null) {
             map.addAttribute("errorMessage", "아이디와 비밀번호가 일치하지 않습니다.");
         }
-        return "customers/login";
+        return "users/login";
     }
 
     @PostMapping("/sign-up")
-    public String signUp(@Validated @ModelAttribute("customer") SignUpRequest request, BindingResult bindingResult, ModelMap map) {
+    public String signUp(@Validated @ModelAttribute("userAccount") SignUpRequest request, BindingResult bindingResult, ModelMap map) {
         try {
-            loginService.signUpCustomer(CustomerUserDetails.from(request.toDto()));
+            loginService.signUpUserAccount(UserAccountUserDetails.from(request.toDto()));
         } catch (IllegalStateException e) {
             map.addAttribute("errorMessage", "이메일이 이미 존재합니다.");
-            return "customers/sign-up";
+            return "users/sign-up";
         }
 
         return "redirect:/";
