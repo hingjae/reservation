@@ -3,9 +3,8 @@ package com.honey.reservation.service;
 import com.honey.reservation.domain.UserAccount;
 import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.dto.ReservationDto;
-import com.honey.reservation.dto.YearDateDto;
-import com.honey.reservation.repository.UserAccountRepository;
 import com.honey.reservation.repository.ReservationRepository;
+import com.honey.reservation.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,9 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 import static com.honey.reservation.domain.reservation.ReservationStatus.CANCEL;
 
@@ -29,20 +32,26 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final UserAccountRepository userAccountRepository;
 
+    public static final LocalTime START_TIME = LocalTime.of(9, 0);
+    public static final LocalTime END_TIME = LocalTime.of(17, 30);
+    public static final int INTERVAL_MINUTES = 30;
+
     @Transactional(readOnly = true)
     public Page<ReservationDto> getReservations(Pageable pageable) {
         return reservationRepository.findAll(pageable).map(ReservationDto::from);
     }
 
     @Transactional(readOnly = true)
-    public List<Double> availableDateTimeSearch(YearDateDto dto) {
-        List<Double> times = DoubleStream.iterate(9, n -> n + 0.5)
-                .limit(18)
-                .boxed()
-                .collect(Collectors.toList());
-        reservationRepository.findByYearAndMonthAndDay(dto.year(), dto.month(), dto.day()).stream()
-                .map(Reservation::getTime)
-                .forEach(time -> times.remove(time));
+    public Map<LocalTime, Boolean> availableDateTimeSearch(LocalDate localDate) {
+        //메서드가 실행될 때마다 Map을 갱신해야함. 생성자로?
+        Map<LocalTime, Boolean> times = Stream.iterate(START_TIME, time -> time.plusMinutes(INTERVAL_MINUTES))
+                .limit((END_TIME.toSecondOfDay() - START_TIME.toSecondOfDay()) / (INTERVAL_MINUTES * 60) + 1)
+                .collect(Collectors.toMap(time -> time, time -> true));
+
+        reservationRepository.findByLocalDate(localDate).stream()
+                .map(Reservation::getLocalTime)
+                .forEach(time -> times.replace(time, false));
+
         return times;
     }
 
@@ -89,12 +98,7 @@ public class ReservationService {
 
     private static void updateReservationDateTime(ReservationDto dto, Reservation reservation, UserAccount userAccount) {
         if (reservation.getUserAccount().equals(userAccount)) {
-            if (dto.year() != null && dto.month() != null && dto.day() != null && dto.time() != null) {
-                reservation.setYear(dto.year());
-                reservation.setMonth(dto.month());
-                reservation.setDay(dto.day());
-                reservation.setTime(dto.time());
-            }
+
         }
     }
 }

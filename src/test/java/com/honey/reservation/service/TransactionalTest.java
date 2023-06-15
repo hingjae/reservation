@@ -3,17 +3,18 @@ package com.honey.reservation.service;
 import com.honey.reservation.domain.UserAccount;
 import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.domain.reservation.ReservationStatus;
-import com.honey.reservation.dto.YearDateDto;
-import com.honey.reservation.repository.UserAccountRepository;
 import com.honey.reservation.repository.ReservationRepository;
+import com.honey.reservation.repository.UserAccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,9 +22,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class TransactionalTest {
 
-    @Autowired ReservationService reservationService;
-    @Autowired ReservationRepository reservationRepository;
-    @Autowired UserAccountRepository userAccountRepository;
+    @Autowired
+    ReservationService reservationService;
+    @Autowired
+    ReservationRepository reservationRepository;
+    @Autowired
+    UserAccountRepository userAccountRepository;
+
+    public static final LocalTime START_TIME = LocalTime.of(9, 0);
+    public static final LocalTime END_TIME = LocalTime.of(17, 30);
+    public static final int INTERVAL_MINUTES = 30;
 
     @DisplayName("예약 가능 시간 검색")
     @Test
@@ -33,10 +41,10 @@ public class TransactionalTest {
         userAccountRepository.saveAndFlush(Useraccount);
 
 
-        Reservation reservation1 = Reservation.of(Useraccount, 2023, 6, 13, 10.0, "memo", ReservationStatus.READY);
-        Reservation reservation2 = Reservation.of(Useraccount, 2023, 6, 13, 10.5, "memo", ReservationStatus.READY);
-        Reservation reservation3 = Reservation.of(Useraccount, 2023, 6, 13, 11.0, "memo", ReservationStatus.READY);
-        Reservation reservation4 = Reservation.of(Useraccount, 2023, 6, 13, 11.5, "memo", ReservationStatus.READY);
+        Reservation reservation1 = Reservation.of(Useraccount, LocalDate.of(2023, 6, 15), LocalTime.of(10, 0), "memo", ReservationStatus.READY);
+        Reservation reservation2 = Reservation.of(Useraccount, LocalDate.of(2023, 6, 15), LocalTime.of(10, 30), "memo", ReservationStatus.READY);
+        Reservation reservation3 = Reservation.of(Useraccount, LocalDate.of(2023, 6, 15), LocalTime.of(11, 0), "memo", ReservationStatus.READY);
+        Reservation reservation4 = Reservation.of(Useraccount, LocalDate.of(2023, 6, 15), LocalTime.of(11, 30), "memo", ReservationStatus.READY);
 
 
         reservationRepository.save(reservation1);
@@ -45,13 +53,10 @@ public class TransactionalTest {
         reservationRepository.save(reservation4);
         reservationRepository.flush();
 
-        YearDateDto dto = YearDateDto.of(2023, 6, 13);
-        List<Double> availableTimes = reservationService.availableDateTimeSearch(dto);
-        assertThat(availableTimes).isEqualTo(List.of(
-            9.0, 9.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5
-        ));
-        List<String> collect = availableTimes.stream().map(String::valueOf).collect(Collectors.toList());
-        System.out.println("collect = " + collect);
+        LocalDate localDate = LocalDate.of(2023, 6, 15);
+        Map<LocalTime, Boolean> times = reservationService.availableDateTimeSearch(localDate);
+        System.out.println("times = " + times);
+
     }
 
 

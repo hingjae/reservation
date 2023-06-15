@@ -8,14 +8,16 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import static javax.persistence.FetchType.LAZY;
 
 @ToString(callSuper = true)
 @Getter
 @Table(indexes = {
-        @Index(columnList = "year"),
-        @Index(columnList = "month"),
-        @Index(columnList = "time"),
+        @Index(columnList = "localDate"),
+        @Index(columnList = "localTime"),
         @Index(columnList = "reservationStatus"),
         @Index(columnList = "createdAt"),
         @Index(columnList = "modifiedAt")
@@ -31,32 +33,27 @@ public class Reservation extends BaseTimeEntity {
     @JoinColumn(name = "user_account_id")
     private UserAccount userAccount;
 
-    @Setter @Column(nullable = false) private Integer year;
-    @Setter @Column(nullable = false) private Integer month;
-    @Setter @Column(nullable = false) private Integer day;
-    @Setter @Column(nullable = false) private Double time;
-
+    @Setter private LocalDate localDate;
+    @Setter private LocalTime localTime;
     @Setter @Column(length = 1000) private String memo;
     @Setter @Enumerated(EnumType.STRING) private ReservationStatus reservationStatus;
 
     protected Reservation() {}
 
-    private Reservation(Long id, UserAccount userAccount, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
+    private Reservation(Long id, UserAccount userAccount, LocalDate localDate, LocalTime localTime, String memo, ReservationStatus reservationStatus) {
         this.id = id;
         this.userAccount = userAccount;
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        this.time = time;
+        this.localDate = localDate;
+        this.localTime = localTime;
         this.memo = memo;
         this.reservationStatus = reservationStatus;
     }
 
-    public static Reservation of(Long id, UserAccount userAccount, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
-        return new Reservation(id, userAccount, year, month, day, time, memo, reservationStatus);
+    public static Reservation of(Long id, UserAccount userAccount, LocalDate localDate, LocalTime localTime, String memo, ReservationStatus reservationStatus) {
+        return new Reservation(id, userAccount, localDate, localTime, memo, reservationStatus);
     }
 
-    public static Reservation of(UserAccount userAccount, Integer year, Integer month, Integer day, Double time, String memo, ReservationStatus reservationStatus) {
-        return Reservation.of(null, userAccount, year, month, day, time, memo, reservationStatus);
+    public static Reservation of(UserAccount userAccount, LocalDate localDate, LocalTime localTime, String memo, ReservationStatus reservationStatus) {
+        return Reservation.of(null, userAccount, localDate, localTime, memo, reservationStatus);
     }
 }
