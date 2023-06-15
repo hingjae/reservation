@@ -1,6 +1,6 @@
 package com.honey.reservation.controller;
 
-import com.honey.reservation.dto.YearDateDto;
+import com.honey.reservation.dto.response.AvailableTimesResponse;
 import com.honey.reservation.dto.response.ReservationDetailResponse;
 import com.honey.reservation.dto.response.ReservationResponse;
 import com.honey.reservation.service.ReservationService;
@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -49,15 +53,13 @@ public class ReservationController {
             @RequestParam(name = "day", required = false) Integer day,
             ModelMap map
     ) {
-        map.addAttribute(
-                "times",
-                reservationService.availableDateTimeSearch(YearDateDto.of(year, month, day))
-                        .stream()
-                        .map(String::valueOf)
-                        .collect(Collectors.toList())
-
-        );
+        map.addAttribute("times", AvailableTimesResponse.from(getTimes(year, month, day)));
+        map.addAttribute("date", LocalDate.of(year, month, day));
         return "reservations/reservation-form";
+    }
+
+    private Map<LocalTime, Boolean> getTimes(Integer year, Integer month, Integer day) {
+        return reservationService.availableDateTimeSearch(LocalDate.of(year, month, day));
     }
 
     @GetMapping("/{reservation-id}")

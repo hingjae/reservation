@@ -14,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -102,13 +104,13 @@ class ReservationServiceTest {
 
     private Reservation createReservation() {
         return Reservation.of(
-                1L, createUserAccount(), 2023, 12, 4, 3.0, "memo", ReservationStatus.READY
+                1L, createUserAccount(), LocalDate.of(2023, 12, 4), LocalTime.of(15, 0), "memo", ReservationStatus.READY
         );
     }
 
     private ReservationDto createReservationDto() {
         return ReservationDto.of(
-                1L, createUserAccountDto(), 2023, 12, 5, 10.0, "description", ReservationStatus.READY
+                1L, createUserAccountDto(), LocalDate.of(2023, 12, 5), LocalTime.of(10, 0), "description", ReservationStatus.READY
         );
     }
 
