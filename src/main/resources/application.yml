@@ -22,11 +22,3 @@ logging:
     com.honey.reservation : debug
     org.springframework.web.servlet: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    url: jdbc:mysql://localhost/reservation
-    driver-class-name: org.h2.Driver

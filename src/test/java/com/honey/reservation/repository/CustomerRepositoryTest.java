@@ -4,29 +4,21 @@ import com.honey.reservation.domain.UserAccount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("test")
 @DisplayName("UserAccountRepository 테스트")
-@Import(UserAccountRepositoryTest.TestJpaConfig.class)
-@DataJpaTest
+@Transactional
+@SpringBootTest
 class UserAccountRepositoryTest {
 
     @Autowired
     UserAccountRepository userAccountRepository;
 
-    @Commit
     @Test
     void crud() {
         UserAccount userAccount = UserAccount.of("loginId", "pw", "honey", null);
@@ -66,12 +58,4 @@ class UserAccountRepositoryTest {
         assertThat(findUserAccount).isNotEmpty();
     }
 
-    @EnableJpaAuditing
-    @TestConfiguration
-    static class TestJpaConfig {
-        @Bean
-        AuditorAware<String> auditorAware() {
-            return () -> Optional.of("sample");
-        }
-    }
 }
