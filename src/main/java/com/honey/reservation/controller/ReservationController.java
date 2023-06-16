@@ -1,27 +1,15 @@
 package com.honey.reservation.controller;
 
-import com.honey.reservation.dto.response.AvailableTimesResponse;
-import com.honey.reservation.dto.response.ReservationDetailResponse;
-import com.honey.reservation.dto.response.ReservationResponse;
+import com.honey.reservation.dto.response.ReservationTimeResponse;
 import com.honey.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RequestMapping("/reservations")
@@ -29,17 +17,6 @@ import java.util.stream.Collectors;
 public class ReservationController {
 
     private final ReservationService reservationService;
-
-    @GetMapping
-    public String reservations(
-            @PageableDefault(size = 10, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable,
-            ModelMap map
-    ) {
-        Page<ReservationResponse> reservations = reservationService.getReservations(pageable)
-                .map(ReservationResponse::from);
-        map.addAttribute("reservations", reservations);
-        return "reservations";
-    }
 
     @GetMapping("/search-date")
     public String searchDate() {
@@ -53,38 +30,10 @@ public class ReservationController {
             @RequestParam(name = "day", required = false) Integer day,
             ModelMap map
     ) {
-        map.addAttribute("times", AvailableTimesResponse.from(getTimes(year, month, day)));
-        map.addAttribute("date", LocalDate.of(year, month, day));
+        LocalDate localDate = LocalDate.of(year, month, day);
+        map.addAttribute("timeButtons", ReservationTimeResponse.from(reservationService.availableDateTimeSearch(localDate)).timeButtons());
+        map.addAttribute("date", localDate);
         return "reservations/reservation-form";
-    }
-
-    private Map<LocalTime, Boolean> getTimes(Integer year, Integer month, Integer day) {
-        return reservationService.availableDateTimeSearch(LocalDate.of(year, month, day));
-    }
-
-    @GetMapping("/{reservation-id}")
-    public String reservation(@PathVariable("reservation-id") Long reservationId, ModelMap map) {
-        ReservationDetailResponse reservation = ReservationDetailResponse
-                .from(reservationService.getReservation(reservationId));
-
-        map.addAttribute("reservation", reservation);
-
-        return "reservation";
-    }
-
-    @GetMapping("/{reservation-id}/edit")
-    public String reservationForm(@PathVariable("reservation-id") Long reservationId, ModelMap map) {
-        ReservationDetailResponse reservation = ReservationDetailResponse
-                .from(reservationService.getReservation(reservationId));
-
-        map.addAttribute("reservation", reservation);
-
-        return "reservationForm";
-    }
-
-    @GetMapping("/form")
-    public String reservationForm() {
-        return "reservationForm";
     }
 
 }
