@@ -10,9 +10,4 @@ public class MainController {
     public String home() {
         return "redirect:/reservations/search-date";
     }
-
-    @GetMapping("/go")
-    public String go() {
-        return "go";
-    }
 }
