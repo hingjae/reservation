@@ -19,12 +19,15 @@
 <main class="w-50 m-auto py-5">
     <div class="container text-center">
         <h3 th:text="${date.getYear() + '년 ' + date.getMonthValue() + '월 ' + date.getDayOfMonth() + '일'}"></h3>
-        <form th:action="@{/reservations/form}" th:method="post">
+        <form th:action="@{/reservations/search-date/form}" th:method="post">
+            <input hidden name="year" type="number" th:value="${date.getYear()}" />
+            <input hidden name="month" type="number" th:value="${date.getMonthValue()}" />
+            <input hidden name="day" type="number" th:value="${date.getDayOfMonth()}" />
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 py-5">
                 <div id="checkboxContainer" th:each="timeButton : ${timeButtons}">
                     <label th:if="${timeButton.value}"><input type="checkbox" name="reservationTime"
-                                                              th:value="${timeButton.getKey()}"
-                                                              th:text="${timeButton.getKey()}"></label>
+                                                              th:value="${timeButton.getKey().toString()}"
+                                                              th:text="${timeButton.getKey().toString()}"></label>
                     <label th:unless="${timeButton.value}" class="text-decoration-line-through light-text"><input
                             type="checkbox" name="reservationTime" th:value="${timeButton.getKey()}"
                             th:text="${timeButton.getKey()}" disabled></label>

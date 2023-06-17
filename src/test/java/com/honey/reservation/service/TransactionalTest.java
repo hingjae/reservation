@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -62,5 +63,40 @@ public class TransactionalTest {
 
     private UserAccount createUserAccount() {
         return UserAccount.of("Useraccount1", "pw1", "Useraccount1", "1234");
+    }
+
+    @Test
+    void 예약_가능_시간() {
+        LocalTime now = LocalTime.now();
+        LocalDate nowDate = LocalDate.now();
+
+        System.out.println("now = " + now);
+        System.out.println("nowDate = " + nowDate);
+        int hour = now.getHour();
+        int minute = now.getMinute();
+
+        LocalTime localTime = roundToNextMinutes(hour, minute);
+        System.out.println("localTime = " + localTime);
+    }
+
+    private LocalTime roundToNextMinutes(int hour, int minute) {
+        if (minute < 0 || minute > 59) {
+            throw new IllegalArgumentException("Invalid minute value: " + minute);
+        }
+
+        int roundedMinute;
+
+        if (minute % 30 == 0) {
+            roundedMinute = minute;
+        } else {
+            roundedMinute = ((minute / 30) + 1) * 30;
+        }
+
+        if (roundedMinute == 60) {
+            hour++;
+            roundedMinute = 0;
+        }
+
+        return LocalTime.of(hour, roundedMinute);
     }
 }
