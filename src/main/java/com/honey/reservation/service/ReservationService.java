@@ -44,7 +44,6 @@ public class ReservationService {
                 .map(Reservation::getLocalTime)
                 .forEach(time -> times.replace(time, false));
 
-
         return times;
     }
 

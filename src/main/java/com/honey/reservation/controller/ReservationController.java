@@ -38,9 +38,9 @@ public class ReservationController {
             @RequestParam(name = "day", required = false) Integer day,
             ModelMap map
     ) {
-        LocalDate localDate = LocalDate.of(year, month, day);
-        map.addAttribute("timeButtons", ReservationTimeResponse.from(reservationService.availableDateTimeSearch(localDate)).timeButtons());
-        map.addAttribute("date", localDate);
+        LocalDate reservationDate = LocalDate.of(year, month, day);
+        map.addAttribute("timeButtons", ReservationTimeResponse.from(reservationDate, reservationService.availableDateTimeSearch(reservationDate)).timeButtons());
+        map.addAttribute("date", reservationDate);
         return "reservations/reservation-form";
     }
 
