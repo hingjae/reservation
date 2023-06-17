@@ -41,6 +41,10 @@ public record UserAccountUserDetails(
         return UserAccount.of(username, passwordEncoder.encode(password), name, phoneNumber);
     }
 
+    public UserAccountDto toDto() {
+        return UserAccountDto.of(username, password, name, phoneNumber);
+    }
+
     @Override public String getUsername() {return username;}
     @Override public String getPassword() {return password;}
     @Override public Collection<? extends GrantedAuthority> getAuthorities() {return authorities;}

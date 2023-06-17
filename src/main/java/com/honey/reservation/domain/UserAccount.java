@@ -1,11 +1,14 @@
 package com.honey.reservation.domain;
 
 import com.honey.reservation.domain.baseentity.BaseTimeEntity;
+import com.honey.reservation.domain.reservation.Reservation;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -21,15 +24,13 @@ public class UserAccount extends BaseTimeEntity {
     @Column(length = 50)
     private String loginId;
 
-    @Setter
-    @Column(length = 255)
-    private String password;
-    @Setter
-    @Column(length = 20)
-    private String name;
-    @Setter
-    @Column(length = 20)
-    private String phoneNumber;
+    @Setter @Column(length = 255) private String password;
+    @Setter @Column(length = 20) private String name;
+    @Setter @Column(length = 20) private String phoneNumber;
+
+    @OneToMany(mappedBy = "userAccount")
+    private List<Reservation> reservations = new ArrayList<>();
+
 
     protected UserAccount() {
     }
