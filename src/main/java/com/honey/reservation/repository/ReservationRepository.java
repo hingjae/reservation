@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     //    List<Reservation> findByYearAndMonthAndDay(Integer year, Integer month, Integer day); // 쿼리dsl로 바꿔볼 것을 고려.
-    List<Reservation> findByLocalDate(LocalDate localDate);
+    List<Reservation> findByReservationDate(LocalDate reservationDate);
 
-    Optional<Reservation> findByLocalDateAndLocalTime(LocalDate localDate, LocalTime localTime);
+    Optional<Reservation> findByReservationDateAndReservationTime(LocalDate reservationDate, LocalTime reservationTime);
 }
