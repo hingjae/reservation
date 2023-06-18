@@ -35,6 +35,16 @@
                         </div>
                     </li>
                     <li>
+                        <a role="button" class="btn btn-outline-light me-2" sec:authorize="isAuthenticated()" th:href="@{/reservations/search-date}">
+                            <span th:text="예약하기"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a role="button" id="my-page" class="btn btn-outline-light me-2" sec:authorize="isAuthenticated()" th:href="@{/reservations/my-page}">
+                            <span th:text="내 + ' ' + 예약"></span>
+                        </a>
+                    </li>
+                    <li>
                         <a role="button" id="logout" class="btn btn-outline-light" sec:authorize="isAuthenticated()" th:href="@{/users/logout}">
                             <span th:text="로그아웃"></span>
                         </a>
