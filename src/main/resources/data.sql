@@ -2,4 +2,4 @@ insert into user_account (login_id, password, name, phone_number) values ('honey
 insert into user_account (login_id, password, name, phone_number) values ('user', '$2a$10$PVcPh4eLJ1fOqPAnJV3MAuMIf733hYOr8kyUb7LVDud3dXNSDMz0i', '고객', '157-398-4256');
 insert into user_account (login_id, password, name, phone_number) values ('manager', '$2a$10$lgl3IqIuB3S4kOz2WB9X7.E9hwQgoyQZ3.vElBObqPRNdzr6CZ8gu', '매니저', '157-398-4256');
 
-insert into reservation (user_account_id, local_date, local_time, memo, reservation_status) values ('honey', '2023-06-28', '9:00', 'LeSabre', 'COMP');
+insert into reservation (user_account_id, reservation_date, reservation_time, memo, reservation_status) values ('honey', '2023-06-17', '9:00', 'LeSabre', 'COMP');
