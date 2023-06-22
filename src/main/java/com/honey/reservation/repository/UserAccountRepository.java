@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface UserAccountRepository extends JpaRepository<UserAccount, String> {
-    @Query("select c.loginId from UserAccount c where c.loginId = :loginId")
+    @Query("select u.loginId from UserAccount u where u.loginId = :loginId")
     Optional<String> findLoginId(@Param("loginId") String loginId);
 }

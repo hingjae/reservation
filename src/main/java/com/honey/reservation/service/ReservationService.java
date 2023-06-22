@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
 
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -69,6 +70,19 @@ public class ReservationService {
                         .reversed())
                 .map(ReservationDto::from)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public String findMemo(Long reservationId, UserAccountUserDetails userAccountUserDetails) {
+        Reservation reservation = reservationRepository.getReferenceById(reservationId);
+        UserAccount userAccount = userAccountRepository.getReferenceById(userAccountUserDetails.getUsername());
+        if (reservation.getUserAccount().equals(userAccount)) {
+            String memo = reservationRepository.findMemoById(reservationId)
+                    .orElse("memo");
+            log.info("memo : {}", memo);
+            return memo;
+        }
+        throw new IllegalStateException("접근할 수 없습니다.");
     }
 
     private void validateReservationDateTime(LocalDate reservationDate, LocalTime reservationTime) {

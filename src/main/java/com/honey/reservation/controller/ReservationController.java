@@ -82,6 +82,16 @@ public class ReservationController {
         return "reservations/update-reservation-form";
     }
 
+    @GetMapping("/{reservationId}/memo")
+    public String reservationMemo(
+            @AuthenticationPrincipal UserAccountUserDetails userAccountUserDetails,
+            @PathVariable Long reservationId, ModelMap map
+    ) {
+        map.addAttribute("memo", reservationService.findMemo(reservationId, userAccountUserDetails));
+        return "reservations/memo";
+    }
+
+
     @PostMapping("{reservationId}/update")
     public String updateReservation(
             @PathVariable("reservationId") Long reservationId,
