@@ -23,6 +23,7 @@
       <input hidden name="year" type="number" th:value="${date.getYear()}" />
       <input hidden name="month" type="number" th:value="${date.getMonthValue()}" />
       <input hidden name="day" type="number" th:value="${date.getDayOfMonth()}" />
+      <input hidden name="managerId" type="number" th:value="${managerId}"/>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 py-5">
         <div id="checkboxContainer" th:each="timeButton : ${timeButtons}">
           <label th:if="${timeButton.value}"><input type="checkbox" name="reservationTime"

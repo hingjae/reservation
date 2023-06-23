@@ -8,16 +8,17 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record ReservationRequest(
+        Long managerId,
         LocalDate localDate,
         LocalTime localTime,
         String memo,
         ReservationStatus reservationStatus
 ) {
-    public static ReservationRequest of(LocalDate localDate, LocalTime localTime, String memo, ReservationStatus reservationStatus) {
-        return new ReservationRequest(localDate, localTime, memo, reservationStatus);
+    public static ReservationRequest of(Long managerId, LocalDate localDate, LocalTime localTime, String memo, ReservationStatus reservationStatus) {
+        return new ReservationRequest(managerId, localDate, localTime, memo, reservationStatus);
     }
 
     public ReservationDto toDto(UserAccountDto userAccountDto) {
-        return ReservationDto.of(userAccountDto, localDate, localTime, memo, reservationStatus);
+        return ReservationDto.of(userAccountDto, managerId, localDate, localTime, memo, reservationStatus);
     }
 }

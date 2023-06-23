@@ -137,7 +137,9 @@
                 "&month=" +
                 nowDay.getMonth() +
                 "&day=" +
-                nowColumn.innerText;
+                nowColumn.innerText +
+                "&managerId=" +
+                document.getElementById("managerId").value;
         }
 
         // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
@@ -159,8 +161,14 @@
 </header>
 
 <main class="w-50 m-auto py-5">
-    <div class="container text-center">
-        <h2>날짜 선택</h2>
+    <div class="container">
+        <h5>manager 선택</h5>
+        <select id="managerId" name="managerId" >
+            <option th:each="manager : ${managers}" th:value="${manager.id}" th:text="${manager.name}"></option>
+        </select>
+
+        <div class="text-center">
+            <h2>날짜 선택</h2>
         <table class="Calendar">
             <thead>
             <tr>
@@ -185,6 +193,7 @@
             <tbody>
             </tbody>
         </table>
+        </div>
     </div>
 </main>
 <footer th:replace="fragments/footer :: footer">

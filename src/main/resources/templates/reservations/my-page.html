@@ -12,7 +12,7 @@
     <hr>
 </header>
 
-<main class="w-50 m-auto py-5">
+<main class="w-55 m-auto py-5">
     <div class="container text-center">
         <h2 th:text="${name} + ' 님 예약'">내 예약</h2>
 
@@ -26,16 +26,18 @@
             <table class="table" id="article-table">
                 <thead>
                 <tr>
-                    <th class="title col-2"><a>날짜</a></th>
-                    <th class="hashtag col-2"><a>시간</a></th>
-                    <th class="created-at col-2"><a>예약 상태</a></th>
-                    <th class="col-2">요청/문의 사항</th>
-                    <th class="col-2"></th>
-                    <th class="col-2"></th>
+                    <th class="col-1">담당자</th>
+                    <th class="title col-1"><a>날짜</a></th>
+                    <th class="hashtag col-1"><a>시간</a></th>
+                    <th class="created-at col-1"><a>예약 상태</a></th>
+                    <th class="col-1">요청/문의</th>
+                    <th class="col-1"></th>
+                    <th class="col-1"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="reservation : ${reservations}">
+                    <td class="col-2" th:text="${reservation.managerAccountDto().name()}"></td>
                     <td class="col-2" th:text="${reservation.reservationDate()}"></td>
                     <td class="col-2" th:text="${reservation.reservationTime()}"></td>
                     <td class="col-2" th:text="${reservation.reservationStatus().description}"></td>
