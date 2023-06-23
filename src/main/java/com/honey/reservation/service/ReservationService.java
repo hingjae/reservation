@@ -111,7 +111,7 @@ public class ReservationService {
     }
 
     private void validateDuplicateReservation(ReservationDto dto) {
-        reservationRepository.findReservationBy(dto.managerAccountDto().id(), dto.reservationDate(), dto.reservationTime());
+        reservationRepository.findReservation(dto.managerAccountDto().id(), dto.reservationDate(), dto.reservationTime());
     }
 
     public void updateReservation(Long reservationId, ReservationDto dto) {

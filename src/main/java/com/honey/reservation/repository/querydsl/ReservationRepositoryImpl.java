@@ -33,7 +33,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom{
     }
 
     @Override
-    public Long findReservationBy(Long managerId, LocalDate reservationDate, LocalTime reservationTime) {
+    public Long findReservation(Long managerId, LocalDate reservationDate, LocalTime reservationTime) {
         QReservation reservation = QReservation.reservation;
         return queryFactory
                 .select(reservation.id)
