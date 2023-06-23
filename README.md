@@ -18,8 +18,8 @@
 
 ### ERD
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0871ee5d-0efb-4639-bbe5-883f9daca4d7/Untitled.png)
+![ERD](https://raw.githubusercontent.com/hingjae/reservation/76fb1278d9c2712c0fc16a35fd3372cf36b8aaf8/document/%08erd.svg)
 
 ### 유즈케이스
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b87d0f3c-a3ad-41cd-91f1-d4245b20faa8/Untitled.png)
+![ERD](https://raw.githubusercontent.com/hingjae/reservation/76fb1278d9c2712c0fc16a35fd3372cf36b8aaf8/document/usecase.svg)
