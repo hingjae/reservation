@@ -6,7 +6,7 @@ plugins {
 
 
 group = 'com.honey'
-version = '0.0.1-SNAPSHOT'
+version = 'v1.0'
 sourceCompatibility = '17'
 
 configurations {
