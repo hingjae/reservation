@@ -21,6 +21,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .mvcMatchers("/api/**").permitAll()
                         .mvcMatchers("/", "/reservations/search-date", "/users/login", "/users/sign-up").permitAll()
                         .anyRequest().authenticated()
                 )
