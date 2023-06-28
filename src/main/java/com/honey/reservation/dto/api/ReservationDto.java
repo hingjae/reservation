@@ -1,5 +1,6 @@
 package com.honey.reservation.dto.api;
 
+import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.domain.reservation.ReservationStatus;
 import lombok.Getter;
 
@@ -26,5 +27,15 @@ public class ReservationDto {
         this.reservationTime = reservationTime;
         this.reservationStatus = reservationStatus;
         this.memo = memo;
+    }
+
+    public ReservationDto(Reservation reservation) {
+        this.id = reservation.getId();
+        this.managerId = reservation.getManagerAccount().getId();
+        this.loginId = reservation.getUserAccount().getLoginId();
+        this.reservationDate = reservation.getReservationDate();
+        this.reservationTime = reservation.getReservationTime();
+        this.reservationStatus = reservation.getReservationStatus();
+        this.memo = reservation.getMemo();
     }
 }
