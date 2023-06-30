@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.honey.reservation.domain.QManagerAccount.managerAccount;
@@ -16,12 +18,12 @@ import static com.honey.reservation.domain.QUserAccount.userAccount;
 import static com.honey.reservation.domain.reservation.QReservation.reservation;
 
 @Repository
-public class ReservationApiRepository {
+public class ReservationQueryRepository {
 
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
-    public ReservationApiRepository(EntityManager em) {
+    public ReservationQueryRepository(EntityManager em) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
     }
@@ -56,6 +58,19 @@ public class ReservationApiRepository {
                 .fetchOne();
 
         return new PageImpl<>(contents, pageable, totalElements);
+    }
+
+    public List<LocalTime> findReservationByManagerAntDate(
+            Long managerId, LocalDate reservationDate
+    ) {
+        return queryFactory.select(reservation.reservationTime)
+                .from(reservation)
+                .join(reservation.managerAccount, managerAccount)
+                .where(
+                        managerAccount.id.eq(managerId),
+                        reservation.reservationDate.eq(reservationDate)
+                )
+                .fetch();
     }
 
 }

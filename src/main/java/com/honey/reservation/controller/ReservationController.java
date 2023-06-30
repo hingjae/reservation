@@ -95,8 +95,6 @@ public class ReservationController {
             @AuthenticationPrincipal UserAccountUserDetails userAccountUserDetails,
             int year, int month, int day, Long managerId, String reservationTime, String memo
     ) {
-        log.info("managerId : {}", managerId);
-        log.info("reservationId : {}", reservationId);
         ReservationRequest reservationRequest = ReservationRequest.of(managerId, LocalDate.of(year, month, day), LocalTimeConverter.from(reservationTime), memo, ReservationStatus.READY);
 
         reservationService.updateReservation(reservationId, reservationRequest.toDto(userAccountUserDetails.toDto()));
