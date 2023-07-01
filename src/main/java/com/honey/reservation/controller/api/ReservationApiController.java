@@ -1,8 +1,11 @@
 package com.honey.reservation.controller.api;
 
+import com.honey.reservation.domain.ManagerAccount;
+import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.dto.api.ReservationDto;
 import com.honey.reservation.dto.api.TimesResponse;
-import com.honey.reservation.dto.request.UpdateReservationRequest;
+import com.honey.reservation.dto.api.UpdateReservationRequest;
+import com.honey.reservation.repository.ManagerAccountRepository;
 import com.honey.reservation.repository.ReservationRepository;
 import com.honey.reservation.repository.api.ReservationQueryRepository;
 import com.honey.reservation.service.ReservationService;
@@ -11,10 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,6 +31,7 @@ public class ReservationApiController {
     private final ReservationQueryRepository reservationQueryRepository; // query dsl
     private final ReservationRepository reservationRepository;
     private final ReservationService reservationService;
+    private final ManagerAccountRepository managerAccountRepository;
 
     @GetMapping
     public Page<ReservationDto> reservations(@PageableDefault(size = 10) Pageable pageable) {
@@ -47,13 +54,26 @@ public class ReservationApiController {
         return TimesResponse.from(reservationService.availableDateTimeSearch(reservationDate, managerId));
     }
 
+    @Transactional
     @PutMapping("/{reservationId}")
-    public void updateReservation(
+    public ResponseEntity<String> updateReservation(
             @PathVariable("reservationId") Long reservationId,
             @RequestBody UpdateReservationRequest request
     ) {
-        log.info("reservationId : {}", reservationId);
-        log.info("request : {}", request);
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 reservation"));
+        ManagerAccount managerAccount = managerAccountRepository.getReferenceById(request.getManagerId());
+        reservation.setManagerAccount(managerAccount);
+        reservation.setReservationDate(request.getReservationDate());
+        reservation.setReservationTime(request.getReservationTime());
+
+        return ResponseEntity.ok("success");
     }
+
+    @Transactional
+    @DeleteMapping("/{reservationId}")
+    public void deleteReservation(@PathVariable("reservationId") Long id) {
+        reservationRepository.deleteById(id);
+    }
+
 
 }

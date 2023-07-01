@@ -1,9 +1,7 @@
-package com.honey.reservation.dto.request;
+package com.honey.reservation.dto.api;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
