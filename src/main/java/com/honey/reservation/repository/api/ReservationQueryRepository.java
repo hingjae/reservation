@@ -1,6 +1,5 @@
 package com.honey.reservation.repository.api;
 
-import com.honey.reservation.domain.QUserAccount;
 import com.honey.reservation.dto.api.ReservationDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -32,7 +31,7 @@ public class ReservationQueryRepository {
     public List<ReservationDto> findAll() {
         return queryFactory
                 .select(Projections.constructor(ReservationDto.class,
-                        reservation.id, managerAccount.id, userAccount.loginId, reservation.reservationDate, reservation.reservationTime, reservation.reservationStatus, reservation.memo
+                        reservation.id, managerAccount.id, managerAccount.name, userAccount.loginId, userAccount.name, reservation.reservationDate, reservation.reservationTime, reservation.reservationStatus, reservation.memo
                 ))
                 .from(reservation)
                 .join(reservation.managerAccount, managerAccount)
@@ -45,7 +44,7 @@ public class ReservationQueryRepository {
         List<ReservationDto> contents = queryFactory
                 .select(Projections.constructor(
                         ReservationDto.class,
-                        reservation.id, managerAccount.id, userAccount.loginId, reservation.reservationDate, reservation.reservationTime, reservation.reservationStatus, reservation.memo
+                        reservation.id, managerAccount.id, managerAccount.name, userAccount.loginId, userAccount.name, reservation.reservationDate, reservation.reservationTime, reservation.reservationStatus, reservation.memo
                 ))
                 .from(reservation)
                 .join(reservation.managerAccount, managerAccount)
@@ -78,7 +77,7 @@ public class ReservationQueryRepository {
         return queryFactory
                 .select(Projections.constructor(
                         ReservationDto.class,
-                        reservation.id, managerAccount.id, userAccount.loginId, reservation.reservationDate, reservation.reservationTime, reservation.reservationStatus, reservation.memo
+                        reservation.id, managerAccount.id, managerAccount.name, userAccount.loginId, userAccount.name, reservation.reservationDate, reservation.reservationTime, reservation.reservationStatus, reservation.memo
                 ))
                 .from(reservation)
                 .join(reservation.userAccount, userAccount)
@@ -88,6 +87,20 @@ public class ReservationQueryRepository {
                         reservation.reservationDate.desc(),
                         reservation.reservationTime.desc()
                 )
+                .fetch();
+    }
+
+    public List<ReservationDto> findListByReservationDate(LocalDate reservationDate) {
+        return queryFactory
+                .select(Projections.constructor(
+                        ReservationDto.class,
+                        reservation.id, managerAccount.id, managerAccount.name, userAccount.loginId, userAccount.name, reservation.reservationDate, reservation.reservationTime, reservation.reservationStatus, reservation.memo
+                ))
+                .from(reservation)
+                .join(reservation.managerAccount, managerAccount)
+                .join(reservation.userAccount, userAccount)
+                .where(reservation.reservationDate.eq(reservationDate))
+                .orderBy(reservation.reservationTime.asc())
                 .fetch();
     }
 

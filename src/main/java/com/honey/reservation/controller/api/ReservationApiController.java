@@ -51,7 +51,7 @@ public class ReservationApiController {
             int year, int month, int day
     ) {
         LocalDate reservationDate = LocalDate.of(year, month, day);
-        return TimesResponse.from(reservationService.availableDateTimeSearch(reservationDate, managerId));
+        return TimesResponse.from(reservationDate, reservationService.availableDateTimeSearch(reservationDate, managerId));
     }
 
     @Transactional
