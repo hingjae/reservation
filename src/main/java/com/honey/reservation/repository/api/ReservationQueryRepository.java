@@ -1,5 +1,6 @@
 package com.honey.reservation.repository.api;
 
+import com.honey.reservation.domain.QUserAccount;
 import com.honey.reservation.dto.api.ReservationDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -60,7 +61,7 @@ public class ReservationQueryRepository {
         return new PageImpl<>(contents, pageable, totalElements);
     }
 
-    public List<LocalTime> findReservationByManagerAntDate(
+    public List<LocalTime> findReservationByManagerAndDate(
             Long managerId, LocalDate reservationDate
     ) {
         return queryFactory.select(reservation.reservationTime)
@@ -69,6 +70,23 @@ public class ReservationQueryRepository {
                 .where(
                         managerAccount.id.eq(managerId),
                         reservation.reservationDate.eq(reservationDate)
+                )
+                .fetch();
+    }
+
+    public List<ReservationDto> findByUserId(String userId) {
+        return queryFactory
+                .select(Projections.constructor(
+                        ReservationDto.class,
+                        reservation.id, managerAccount.id, userAccount.loginId, reservation.reservationDate, reservation.reservationTime, reservation.reservationStatus, reservation.memo
+                ))
+                .from(reservation)
+                .join(reservation.userAccount, userAccount)
+                .join(reservation.managerAccount, managerAccount)
+                .where(userAccount.loginId.eq(userId))
+                .orderBy(
+                        reservation.reservationDate.desc(),
+                        reservation.reservationTime.desc()
                 )
                 .fetch();
     }

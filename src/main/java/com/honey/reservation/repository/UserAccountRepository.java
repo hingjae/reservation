@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface UserAccountRepository extends JpaRepository<UserAccount, String> {
     @Query("select u.loginId from UserAccount u where u.loginId = :loginId")
     Optional<String> findLoginId(@Param("loginId") String loginId);
+
+    @Query("select u.name from UserAccount u where u.loginId = :loginId")
+    Optional<String> findNameByLoginId(@Param("loginId") String loginId);
 }

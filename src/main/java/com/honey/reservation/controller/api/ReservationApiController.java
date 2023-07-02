@@ -5,6 +5,7 @@ import com.honey.reservation.domain.reservation.Reservation;
 import com.honey.reservation.dto.api.ReservationDto;
 import com.honey.reservation.dto.api.TimesResponse;
 import com.honey.reservation.dto.api.UpdateReservationRequest;
+import com.honey.reservation.dto.api.ReservationStatusRequest;
 import com.honey.reservation.repository.ManagerAccountRepository;
 import com.honey.reservation.repository.ReservationRepository;
 import com.honey.reservation.repository.api.ReservationQueryRepository;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class ReservationApiController {
     private final ManagerAccountRepository managerAccountRepository;
 
     @GetMapping
-    public Page<ReservationDto> reservations(@PageableDefault(size = 10) Pageable pageable) {
+    public Page<ReservationDto> reservations(@PageableDefault(size = 20) Pageable pageable) {
         return reservationRepository.findAll(pageable).map(ReservationDto::new);
     }
 
@@ -57,8 +57,7 @@ public class ReservationApiController {
     @Transactional
     @PutMapping("/{reservationId}")
     public ResponseEntity<String> updateReservation(
-            @PathVariable("reservationId") Long reservationId,
-            @RequestBody UpdateReservationRequest request
+            @PathVariable("reservationId") Long reservationId, @RequestBody UpdateReservationRequest request
     ) {
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 reservation"));
         ManagerAccount managerAccount = managerAccountRepository.getReferenceById(request.getManagerId());
@@ -67,6 +66,16 @@ public class ReservationApiController {
         reservation.setReservationTime(request.getReservationTime());
 
         return ResponseEntity.ok("success");
+    }
+
+    @Transactional
+    @PutMapping("/{reservationId}/complete")
+    public void updateReservationStatus(
+            @PathVariable("reservationId")Long reservationId, @RequestBody ReservationStatusRequest request
+    ) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 reservation"));
+        reservation.setReservationStatus(request.reservationStatus());
+        reservationRepository.flush();
     }
 
     @Transactional

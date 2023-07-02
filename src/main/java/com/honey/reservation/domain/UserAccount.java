@@ -28,7 +28,7 @@ public class UserAccount extends BaseTimeEntity {
     @Setter @Column(length = 20) private String name;
     @Setter @Column(length = 20) private String phoneNumber;
 
-    @OneToMany(mappedBy = "userAccount")
+    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
 
 
