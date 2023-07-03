@@ -30,7 +30,8 @@ public class ReservationQueryRepository {
 
     public List<ReservationDto> findAll() {
         return queryFactory
-                .select(Projections.constructor(ReservationDto.class,
+                .select(Projections.constructor(
+                        ReservationDto.class,
                         reservation.id, managerAccount.id, managerAccount.name, userAccount.loginId, userAccount.name, reservation.reservationDate, reservation.reservationTime, reservation.reservationStatus, reservation.memo
                 ))
                 .from(reservation)

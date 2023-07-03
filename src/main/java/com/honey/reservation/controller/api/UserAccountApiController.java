@@ -21,9 +21,14 @@ public class UserAccountApiController {
     private final ReservationQueryRepository reservationQueryRepository;
 
     @GetMapping
-    public Page<UserAccountDto> userAccounts(@PageableDefault(size = 20) Pageable pageable) {
-        return userAccountRepository.findAll(pageable).map(UserAccountDto::from);
+    public Page<UserAccountDto> userAccounts(
+            @PageableDefault(size = 20) Pageable pageable,
+            @RequestParam(required = false) String searchValue
+    ) {
+//        return userAccountRepository.findAll(pageable).map(UserAccountDto::from);
+        return userAccountRepository.searchBySearchValue(pageable, searchValue);
     }
+
 
     @GetMapping("/{userId}")
     public UserReservationResponse userReservations(@PathVariable("userId") String userId) {
