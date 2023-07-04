@@ -3,6 +3,7 @@ package com.honey.reservation.dto.response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.*;
 
 public record ReservationTimeResponse(
@@ -14,7 +15,7 @@ public record ReservationTimeResponse(
     }
 
     public static ReservationTimeResponse from(LocalDate reservationDate, Map<LocalTime, Boolean> timeMap) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         for (Map.Entry<LocalTime, Boolean> entry : timeMap.entrySet()) {
             LocalDateTime localDateTime = LocalDateTime.of(reservationDate, entry.getKey());
             if (localDateTime.isBefore(now)) {

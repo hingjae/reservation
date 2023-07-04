@@ -19,6 +19,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -95,7 +96,7 @@ public class ReservationService {
 
     private void validateReservationDateTime(LocalDate reservationDate, LocalTime reservationTime) {
         LocalDateTime reservationLocalDateTime = LocalDateTime.of(reservationDate, reservationTime);
-        if (reservationLocalDateTime.isBefore(LocalDateTime.now())) {
+        if (reservationLocalDateTime.isBefore(LocalDateTime.now(ZoneId.of("Asia/Seoul")))) {
             throw new IllegalStateException("이미 지난 날짜/시간은 예약할 수 없습니다.");
         }
     }
