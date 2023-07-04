@@ -27,7 +27,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom{
                 .join(reservation.managerAccount, managerAccount)
                 .where(
                         reservation.reservationDate.eq(reservationDate),
-                        reservation.managerAccount.id.eq(managerId)
+                        managerAccount.id.eq(managerId)
                 )
                 .fetch();
     }
