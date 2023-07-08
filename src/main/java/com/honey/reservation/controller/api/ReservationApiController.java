@@ -2,10 +2,7 @@ package com.honey.reservation.controller.api;
 
 import com.honey.reservation.domain.ManagerAccount;
 import com.honey.reservation.domain.reservation.Reservation;
-import com.honey.reservation.dto.api.ReservationDto;
-import com.honey.reservation.dto.api.TimesResponse;
-import com.honey.reservation.dto.api.UpdateReservationRequest;
-import com.honey.reservation.dto.api.ReservationStatusRequest;
+import com.honey.reservation.dto.api.*;
 import com.honey.reservation.repository.ManagerAccountRepository;
 import com.honey.reservation.repository.ReservationRepository;
 import com.honey.reservation.repository.api.ReservationQueryRepository;
@@ -53,6 +50,13 @@ public class ReservationApiController {
         LocalDate reservationDate = LocalDate.of(year, month, day);
         return TimesResponse.from(reservationDate, reservationService.availableDateTimeSearch(reservationDate, managerId));
     }
+
+    @GetMapping("/{reservationId}/memo")
+    public ReservationMemoResponse getReservationMemo(@PathVariable("reservationId")Long reservationId) {
+        return ReservationMemoResponse.from(reservationRepository.findMemoById(reservationId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 예약 입니다. - " + reservationId)));
+    }
+
 
     @Transactional
     @PutMapping("/{reservationId}")
