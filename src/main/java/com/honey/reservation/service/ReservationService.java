@@ -44,11 +44,6 @@ public class ReservationService {
     @Transactional(readOnly = true)
     public Map<LocalTime, Boolean> availableDateTimeSearch(LocalDate localDate, Long managerId) {
         Map<LocalTime, Boolean> times = generateTimes();
-        /*
-        reservationRepository.findByReservationDate(localDate).stream()
-                .map(Reservation::getReservationTime)
-                .forEach(time -> times.replace(time, false));
-                */
         reservationRepository.findReservationTime(localDate, managerId).stream()
                 .forEach(time -> times.replace(time, false));
 
@@ -86,9 +81,7 @@ public class ReservationService {
         Reservation reservation = reservationRepository.getReferenceById(reservationId);
         UserAccount userAccount = userAccountRepository.getReferenceById(userAccountUserDetails.getUsername());
         if (reservation.getUserAccount().equals(userAccount)) {
-            String memo = reservationRepository.findMemoById(reservationId)
-                    .orElse("memo");
-            log.info("memo : {}", memo);
+            String memo = reservationRepository.findMemoById(reservationId).orElse("memo");
             return memo;
         }
         throw new IllegalStateException("접근할 수 없습니다.");
